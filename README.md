@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # QMS
 
 Enterprise Quality Management System with a React + TypeScript frontend, Express + TypeScript backend, Sequelize ORM, and MySQL.
@@ -47,3 +48,6 @@ Default admin credentials:
 - Backend startup uses safe `sequelize.sync()` by default. Set `DB_SYNC_ALTER=true` only when you intentionally want Sequelize to run schema alter operations.
 # QMS-Quality-Management-System
 # QMS-Quality-Management-System
+=======
+# EMS
+>>>>>>> e7f0a43cfbb8cb937329427825e99141cf5c7bfc
