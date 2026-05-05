@@ -17,11 +17,12 @@ export const navSections: NavSection[] = [
      {
         label: "Access Control",
         icon: ShieldIcon,
-        requiredPermissions: ["VIEW_ROLES"],
+        requiredPermissions: ["VIEW_ROLES", "VIEW_USERS", "VIEW_DEPARTMENTS"],
         children: [
           { label: "Roles", to: "/roles", requiredPermissions: ["VIEW_ROLES"] },
           { label: "Users", to: "/users", requiredPermissions: ["VIEW_USERS"] },
           { label: "Role User", to: "/roles/users", requiredPermissions: ["VIEW_ROLE_USER"] },
+          { label: "Departments", to: "/departments", requiredPermissions: ["VIEW_USERS"] },
         ],
       },
       {

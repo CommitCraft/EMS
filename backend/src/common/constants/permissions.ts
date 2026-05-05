@@ -33,9 +33,10 @@ export const PERMISSION_CATALOG: PermissionModuleSeed[] = [
   {
     label: 'Access Control',
     pages: [
-      { label: 'Roles', actions: viewOnly('View', 'VIEW_ROLES') },
-      { label: 'Users', actions: viewOnly('View', 'VIEW_USERS') },
-      { label: 'Role User', actions: viewOnly('View', 'VIEW_ROLE_USER') },
+      { label: 'Roles', actions: commonCrud('ROLES') },
+      { label: 'Users', actions: commonCrud('USERS') },
+      { label: 'Role User', actions: manageActions('ROLE_USER') },
+      { label: 'Departments', actions: commonCrud('DEPARTMENTS') },
       { label: 'Permissions', actions: viewOnly('View', 'VIEW_PERMISSIONS') },
     ],
   },
