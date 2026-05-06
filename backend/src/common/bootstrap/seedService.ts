@@ -1,5 +1,5 @@
 import bcrypt from 'bcryptjs';
-import { CompanyProfile, Department, Permission, Role, RolePermission, User } from '../../models';
+import { CompanyProfile, Department, Permission, Role, RolePermission, User, Plant, Line, Shift } from '../../models';
 import { flattenPermissionCatalog } from '../constants/permissions';
 
 const defaultPermissions = flattenPermissionCatalog();
@@ -81,4 +81,40 @@ export const seedDatabase = async () => {
       isDefault: true,
     },
   });
-};
+
+  // Seed Plants
+  const plants = [
+    { name: 'Plant A - Mumbai', code: 'PLANT_A', location: 'Mumbai, India', manager: 'Rajesh Gupta', description: 'Main production facility', status: 'Active' },
+    { name: 'Plant B - Bangalore', code: 'PLANT_B', location: 'Bangalore, India', manager: 'Sunita Verma', description: 'Secondary production facility', status: 'Active' },
+    { name: 'Plant C - Pune', code: 'PLANT_C', location: 'Pune, India', manager: 'Arjun Singh', description: 'Assembly and testing facility', status: 'Active' },
+  ];
+
+  const seededPlants = [];
+  for (const plant of plants) {
+    const [record] = await Plant.findOrCreate({ where: { code: plant.code }, defaults: plant });
+    seededPlants.push(record);
+  }
+
+  // Seed Lines
+  const lines = [
+    { name: 'Assembly Line 1', code: 'LINE_A1', plantId: seededPlants[0]?.id ?? 1, supervisor: 'Vikram Reddy', capacity: 100, description: 'Primary assembly line', status: 'Active' },
+    { name: 'Assembly Line 2', code: 'LINE_A2', plantId: seededPlants[0]?.id ?? 1, supervisor: 'Meena Iyer', capacity: 85, description: 'Secondary assembly line', status: 'Active' },
+    { name: 'Testing Line 1', code: 'LINE_T1', plantId: seededPlants[1]?.id ?? 2, supervisor: 'Anil Kumar', capacity: 50, description: 'Quality testing line', status: 'Active' },
+    { name: 'Packing Line 1', code: 'LINE_P1', plantId: seededPlants[2]?.id ?? 3, supervisor: 'Priya Nair', capacity: 120, description: 'Final packing line', status: 'Active' },
+  ];
+
+  for (const line of lines) {
+    await Line.findOrCreate({ where: { code: line.code }, defaults: line });
+  }
+
+  // Seed Shifts
+  const shifts = [
+    { name: 'Morning Shift', startTime: '06:00', endTime: '14:00', duration: 480, description: 'Early morning production shift', status: 'Active' },
+    { name: 'Afternoon Shift', startTime: '14:00', endTime: '22:00', duration: 480, description: 'Afternoon production shift', status: 'Active' },
+    { name: 'Night Shift', startTime: '22:00', endTime: '06:00', duration: 480, description: 'Night production shift', status: 'Active' },
+  ];
+
+  for (const shift of shifts) {
+    await Shift.findOrCreate({ where: { name: shift.name }, defaults: shift });
+  }
+}

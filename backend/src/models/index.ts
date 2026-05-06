@@ -96,6 +96,38 @@ class ActivityLogModel extends Model<InferAttributes<ActivityLogModel>, InferCre
   declare meta: string | null;
 }
 
+class PlantModel extends Model<InferAttributes<PlantModel>, InferCreationAttributes<PlantModel>> {
+  declare id: CreationOptional<number>;
+  declare name: string;
+  declare code: string;
+  declare location: string;
+  declare manager: string | null;
+  declare description: string | null;
+  declare status: string;
+}
+
+class LineModel extends Model<InferAttributes<LineModel>, InferCreationAttributes<LineModel>> {
+  declare id: CreationOptional<number>;
+  declare name: string;
+  declare code: string;
+  declare plantId: number;
+  declare supervisor: string | null;
+  declare capacity: number | null;
+  declare description: string | null;
+  declare status: string;
+  declare plant?: PlantModel;
+}
+
+class ShiftModel extends Model<InferAttributes<ShiftModel>, InferCreationAttributes<ShiftModel>> {
+  declare id: CreationOptional<number>;
+  declare name: string;
+  declare startTime: string;
+  declare endTime: string;
+  declare duration: number;
+  declare description: string | null;
+  declare status: string;
+}
+
 export const initModels = (sequelizeInstance: Sequelize) => {
   RoleModel.init(
     {
@@ -221,10 +253,52 @@ export const initModels = (sequelizeInstance: Sequelize) => {
     { sequelize: sequelizeInstance, tableName: 'activity_logs' },
   );
 
+  PlantModel.init(
+    {
+      id: { type: DataTypes.INTEGER.UNSIGNED, autoIncrement: true, primaryKey: true },
+      name: { type: DataTypes.STRING(150), allowNull: false, unique: true },
+      code: { type: DataTypes.STRING(50), allowNull: false, unique: true },
+      location: { type: DataTypes.STRING(200), allowNull: false },
+      manager: { type: DataTypes.STRING(150), allowNull: true },
+      description: { type: DataTypes.TEXT, allowNull: true },
+      status: { type: DataTypes.ENUM('Active', 'Inactive'), allowNull: false, defaultValue: 'Active' },
+    },
+    { sequelize: sequelizeInstance, tableName: 'plants' },
+  );
+
+  LineModel.init(
+    {
+      id: { type: DataTypes.INTEGER.UNSIGNED, autoIncrement: true, primaryKey: true },
+      name: { type: DataTypes.STRING(150), allowNull: false },
+      code: { type: DataTypes.STRING(50), allowNull: false },
+      plantId: { type: DataTypes.INTEGER.UNSIGNED, allowNull: false, field: 'plant_id' },
+      supervisor: { type: DataTypes.STRING(150), allowNull: true },
+      capacity: { type: DataTypes.INTEGER, allowNull: true },
+      description: { type: DataTypes.TEXT, allowNull: true },
+      status: { type: DataTypes.ENUM('Active', 'Inactive'), allowNull: false, defaultValue: 'Active' },
+    },
+    { sequelize: sequelizeInstance, tableName: 'lines' },
+  );
+
+  ShiftModel.init(
+    {
+      id: { type: DataTypes.INTEGER.UNSIGNED, autoIncrement: true, primaryKey: true },
+      name: { type: DataTypes.STRING(100), allowNull: false, unique: true },
+      startTime: { type: DataTypes.STRING(8), allowNull: false, field: 'start_time' },
+      endTime: { type: DataTypes.STRING(8), allowNull: false, field: 'end_time' },
+      duration: { type: DataTypes.INTEGER, allowNull: false },
+      description: { type: DataTypes.TEXT, allowNull: true },
+      status: { type: DataTypes.ENUM('Active', 'Inactive'), allowNull: false, defaultValue: 'Active' },
+    },
+    { sequelize: sequelizeInstance, tableName: 'shifts' },
+  );
+
   RoleModel.hasMany(UserModel, { foreignKey: 'roleId', as: 'users' });
   UserModel.belongsTo(RoleModel, { foreignKey: 'roleId', as: 'role' });
   DepartmentModel.hasMany(UserModel, { foreignKey: 'departmentId', as: 'users' });
   UserModel.belongsTo(DepartmentModel, { foreignKey: 'departmentId', as: 'department' });
+  PlantModel.hasMany(LineModel, { foreignKey: 'plantId', as: 'lines' });
+  LineModel.belongsTo(PlantModel, { foreignKey: 'plantId', as: 'plant' });
   RoleModel.belongsToMany(PermissionModel, {
     through: RolePermissionModel,
     foreignKey: 'roleId',
@@ -248,6 +322,9 @@ export const initModels = (sequelizeInstance: Sequelize) => {
     StorageSetting: StorageSettingModel,
     CompanyProfile: CompanyProfileModel,
     ActivityLog: ActivityLogModel,
+    Plant: PlantModel,
+    Line: LineModel,
+    Shift: ShiftModel,
   };
 };
 
@@ -263,4 +340,7 @@ export const {
   StorageSetting,
   CompanyProfile,
   ActivityLog,
+  Plant,
+  Line,
+  Shift,
 } = models;

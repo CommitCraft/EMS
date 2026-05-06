@@ -47,6 +47,7 @@ const ACTION_COLUMNS: Array<{ type: ActionType; label: string }> = [
 type PermissionMatrixProps = {
   selectedPermissions: number[];
   onChange: (permissionIds: number[]) => void;
+  initialSearch?: string;
 };
 
 const Checkbox = ({
@@ -88,13 +89,15 @@ const buildSelection = (ids: number[], shouldSelect: boolean, selected: number[]
   return selected.filter((id) => !ids.includes(id));
 };
 
-export const PermissionMatrix = ({ selectedPermissions, onChange }: PermissionMatrixProps) => {
+export const PermissionMatrix = ({ selectedPermissions, onChange, initialSearch }: PermissionMatrixProps) => {
   const [tree, setTree] = useState<PermissionModuleNode[]>([]);
   const [search, setSearch] = useState('');
   const [expandedModules, setExpandedModules] = useState<Record<string, boolean>>({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (initialSearch) setSearch(initialSearch);
+
     const loadPermissions = async () => {
       setLoading(true);
       try {
@@ -115,6 +118,12 @@ export const PermissionMatrix = ({ selectedPermissions, onChange }: PermissionMa
     };
 
     void loadPermissions();
+  }, []);
+
+  useEffect(() => {
+    if (typeof ({} as PermissionMatrixProps).initialSearch === 'string') {
+      // noop if prop not provided — this line kept to satisfy TS in patch context
+    }
   }, []);
 
   const filteredTree = useMemo(() => {

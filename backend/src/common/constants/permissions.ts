@@ -31,6 +31,14 @@ export const PERMISSION_CATALOG: PermissionModuleSeed[] = [
     pages: [{ label: 'Dashboard', actions: viewOnly('View', 'VIEW_DASHBOARD') }],
   },
   {
+    label: 'Organization',
+    pages: [
+      { label: 'Plants', actions: commonCrud('PLANTS') },
+      { label: 'Lines', actions: commonCrud('LINES') },
+      { label: 'Shifts', actions: commonCrud('SHIFTS') },
+    ],
+  },
+  {
     label: 'Access Control',
     pages: [
       { label: 'Roles', actions: commonCrud('ROLES') },

@@ -79,8 +79,9 @@ export const CrudPage = ({ config }: CrudPageProps) => {
         setMeta(response.meta);
       }
     } catch (error) {
-      const status = (error as AxiosError<{ message?: string }>)?.response
-        ?.status;
+      const err = error as Error;
+      const status = (error as AxiosError<{ message?: string }>)?.response?.status;
+      const serverMessage = (error as AxiosError<{ message?: string }>)?.response?.data?.message;
       if (isCompanyProfilePage) {
         try {
           const publicResponse = await companyProfileService.getPublicProfile();
@@ -103,7 +104,7 @@ export const CrudPage = ({ config }: CrudPageProps) => {
           return;
         }
       }
-      toast.error(`Failed to load ${config.title.toLowerCase()}`);
+      toast.error(serverMessage || `Failed to load ${config.title.toLowerCase()}`);
     } finally {
       setLoading(false);
     }
@@ -260,8 +261,9 @@ export const CrudPage = ({ config }: CrudPageProps) => {
         toast.success(`${config.title} created`);
       }
       setModalOpen(false);
-    } catch {
-      toast.error(`Unable to save ${config.title.toLowerCase()}`);
+    } catch (error) {
+      const serverMessage = (error as AxiosError<{ message?: string }>)?.response?.data?.message || (error as Error).message;
+      toast.error(serverMessage || `Unable to save ${config.title.toLowerCase()}`);
     }
   };
 
@@ -318,15 +320,13 @@ export const CrudPage = ({ config }: CrudPageProps) => {
       window.dispatchEvent(new Event("company-profile-updated"));
       toast.success("Company Profile saved");
     } catch (error) {
-      const status = (error as AxiosError<{ message?: string }>)?.response
-        ?.status;
+      const status = (error as AxiosError<{ message?: string }>)?.response?.status;
+      const serverMessage = (error as AxiosError<{ message?: string }>)?.response?.data?.message;
       if (status === 403) {
-        toast.error(
-          "You do not have settings write permission to update company profile.",
-        );
+        toast.error(serverMessage || "You do not have settings write permission to update company profile.");
         return;
       }
-      toast.error("Unable to save company profile");
+      toast.error(serverMessage || "Unable to save company profile");
     }
   };
 
@@ -356,9 +356,10 @@ export const CrudPage = ({ config }: CrudPageProps) => {
         };
       });
       toast.success(`${config.title} deleted`);
-    } catch {
-      toast.error(`Unable to delete ${config.title.toLowerCase()}`);
-    }
+    } catch (error) {
+        const serverMessage = (error as unknown as AxiosError<{ message?: string }>)?.response?.data?.message;
+        toast.error(serverMessage || `Unable to delete ${config.title.toLowerCase()}`);
+      }
   };
 
   if (isCompanyProfilePage) {

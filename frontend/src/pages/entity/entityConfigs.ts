@@ -308,3 +308,73 @@ export const companyProfileConfig: CrudConfig = {
     },
   ],
 };
+
+export const plantsConfig: CrudConfig = {
+  title: 'Plants',
+  endpoint: '/organization/plants',
+  description: 'Manage manufacturing plants and facilities.',
+  searchPlaceholder: 'Search plants by name or code',
+  columns: [
+    { key: 'name', label: 'Plant Name' },
+    { key: 'code', label: 'Code' },
+    { key: 'location', label: 'Location' },
+    { key: 'manager', label: 'Manager' },
+    { key: 'status', label: 'Status' },
+  ],
+  fields: [
+    { name: 'name', label: 'Plant Name', type: 'text', required: true },
+    { name: 'code', label: 'Plant Code', type: 'text', required: true },
+    { name: 'location', label: 'Location', type: 'text', required: true },
+    { name: 'manager', label: 'Manager', type: 'text' },
+    { name: 'description', label: 'Description', type: 'textarea' },
+    { name: 'status', label: 'Status', type: 'select', required: true, options: [{ label: 'Active', value: 'Active' }, { label: 'Inactive', value: 'Inactive' }] },
+  ],
+};
+
+export const linesConfig: CrudConfig = {
+  title: 'Lines',
+  endpoint: '/organization/lines',
+  description: 'Manage production lines within plants.',
+  searchPlaceholder: 'Search lines by name or code',
+  columns: [
+    { key: 'name', label: 'Line Name' },
+    { key: 'code', label: 'Code' },
+    { key: 'plant', label: 'Plant' },
+    { key: 'supervisor', label: 'Supervisor' },
+    { key: 'status', label: 'Status' },
+  ],
+  fields: [
+    { name: 'name', label: 'Line Name', type: 'text', required: true },
+    { name: 'code', label: 'Line Code', type: 'text', required: true },
+    { name: 'plantId', label: 'Plant', type: 'select', required: true },
+    { name: 'supervisor', label: 'Supervisor', type: 'text' },
+    { name: 'capacity', label: 'Capacity', type: 'number' },
+    { name: 'description', label: 'Description', type: 'textarea' },
+    { name: 'status', label: 'Status', type: 'select', required: true, options: [{ label: 'Active', value: 'Active' }, { label: 'Inactive', value: 'Inactive' }] },
+  ],
+  selectSources: {
+    plantId: { endpoint: '/organization/plants?limit=100', labelKey: 'name', valueKey: 'id' },
+  },
+};
+
+export const shiftsConfig: CrudConfig = {
+  title: 'Shifts',
+  endpoint: '/organization/shifts',
+  description: 'Manage work shifts and timings.',
+  searchPlaceholder: 'Search shifts by name',
+  columns: [
+    { key: 'name', label: 'Shift Name' },
+    { key: 'startTime', label: 'Start Time' },
+    { key: 'endTime', label: 'End Time' },
+    { key: 'duration', label: 'Duration' },
+    { key: 'status', label: 'Status' },
+  ],
+  fields: [
+    { name: 'name', label: 'Shift Name', type: 'text', required: true },
+    { name: 'startTime', label: 'Start Time', type: 'time', required: true },
+    { name: 'endTime', label: 'End Time', type: 'time', required: true },
+    { name: 'duration', label: 'Duration (minutes)', type: 'number', required: true },
+    { name: 'description', label: 'Description', type: 'textarea' },
+    { name: 'status', label: 'Status', type: 'select', required: true, options: [{ label: 'Active', value: 'Active' }, { label: 'Inactive', value: 'Inactive' }] },
+  ],
+};

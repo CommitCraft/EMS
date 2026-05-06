@@ -13,6 +13,11 @@ export const ROUTE_PATHS = {
   permissions: '/permissions',
   departments: '/departments',
 
+  // Organization
+  plants: '/organization/plants',
+  lines: '/organization/lines',
+  shifts: '/organization/shifts',
+
   reports: '/reports',
   logs: '/logs',
 

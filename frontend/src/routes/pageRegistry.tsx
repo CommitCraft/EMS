@@ -16,6 +16,9 @@ const StorageSettingsPage = lazy(() => import('../pages/StorageSettingsPage'));
 const CompanyProfilePage = lazy(() => import('../pages/CompanyProfilePage'));
 const MyProfilePage = lazy(() => import('../pages/MyProfilePage'));
 const ErrorLogsPage = lazy(() => import('../pages/ErrorLogsPage'));
+const PlantsPage = lazy(() => import('../pages/organization/plants'));
+const LinesPage = lazy(() => import('../pages/organization/lines'));
+const ShiftsPage = lazy(() => import('../pages/organization/shifts'));
 const PageNotFound = lazy(() => import('../pages/NotFoundPage'));
 
 export {
@@ -35,5 +38,8 @@ export {
   CompanyProfilePage,
   MyProfilePage,
   ErrorLogsPage,
+  PlantsPage,
+  LinesPage,
+  ShiftsPage,
   PageNotFound,
 };

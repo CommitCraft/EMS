@@ -50,7 +50,7 @@ export interface TableColumn {
 export interface FormField {
   name: string;
   label: string;
-  type: 'text' | 'email' | 'password' | 'textarea' | 'select' | 'date' | 'number' | 'asset';
+  type: 'text' | 'email' | 'password' | 'textarea' | 'select' | 'date' | 'time' | 'number' | 'asset';
   placeholder?: string;
   helperText?: string;
   uploadEndpoint?: string;
@@ -75,6 +75,7 @@ export interface CrudConfig {
   columns: TableColumn[];
   fields: FormField[];
   searchPlaceholder: string;
+  selectSources?: Record<string, { endpoint: string; labelKey: string; valueKey: string }>;
 }
 
 export interface CompanyProfile {

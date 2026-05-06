@@ -10,6 +10,9 @@ import settingsRoutes from './settings/routes/settings.routes';
 import companyProfileRoutes from './company-profile/routes/company-profile.routes';
 import roleUsersRoutes from './role-users/routes/role-users.routes';
 import logsRoutes from './logs/routes/logs.routes';
+import plantsRoutes from './plants/routes/plants.routes';
+import linesRoutes from './lines/routes/lines.routes';
+import shiftsRoutes from './shifts/routes/shifts.routes';
 
 const apiRouter = Router();
 
@@ -23,6 +26,9 @@ apiRouter.use('/roles', rolesRoutes);
 apiRouter.use('/permissions', permissionsRoutes);
 apiRouter.use('/departments', departmentsRoutes);
 apiRouter.use('/logs', logsRoutes);
+apiRouter.use('/organization/plants', plantsRoutes);
+apiRouter.use('/organization/lines', linesRoutes);
+apiRouter.use('/organization/shifts', shiftsRoutes);
 apiRouter.use('/', settingsRoutes);
 
 export default apiRouter;
