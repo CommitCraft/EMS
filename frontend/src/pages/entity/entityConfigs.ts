@@ -339,7 +339,11 @@ export const linesConfig: CrudConfig = {
   columns: [
     { key: 'name', label: 'Line Name' },
     { key: 'code', label: 'Code' },
-    { key: 'plant', label: 'Plant' },
+    {
+      key: 'plant',
+      label: 'Plant',
+      render: (row) => String((row.plant as { name?: string } | undefined)?.name || '-'),
+    },
     { key: 'supervisor', label: 'Supervisor' },
     { key: 'status', label: 'Status' },
   ],
@@ -377,4 +381,34 @@ export const shiftsConfig: CrudConfig = {
     { name: 'description', label: 'Description', type: 'textarea' },
     { name: 'status', label: 'Status', type: 'select', required: true, options: [{ label: 'Active', value: 'Active' }, { label: 'Inactive', value: 'Inactive' }] },
   ],
+};
+
+export const machinesConfig: CrudConfig & { selectSources: Record<string, { endpoint: string; labelKey: string; valueKey: string }> } = {
+  title: 'Machines',
+  endpoint: '/organization/machines',
+  description: 'Manage production machines across plants and lines.',
+  searchPlaceholder: 'Search machines by name, code, serial number, or operator',
+  columns: [
+    { key: 'name', label: 'Machine Name' },
+    { key: 'code', label: 'Code' },
+    { key: 'plant', label: 'Plant', render: (row) => String((row.plant as { name?: string } | undefined)?.name || '-') },
+    { key: 'line', label: 'Line', render: (row) => String((row.line as { name?: string } | undefined)?.name || '-') },
+    { key: 'status', label: 'Status' },
+  ],
+  fields: [
+    { name: 'name', label: 'Machine Name', type: 'text', required: true },
+    { name: 'code', label: 'Machine Code', type: 'text', required: true },
+    { name: 'plantId', label: 'Plant', type: 'select', required: true },
+    { name: 'lineId', label: 'Line', type: 'select', required: true },
+    { name: 'serialNumber', label: 'Serial Number', type: 'text' },
+    { name: 'modelNumber', label: 'Model Number', type: 'text' },
+    { name: 'operator', label: 'Operator', type: 'text' },
+    { name: 'capacity', label: 'Capacity', type: 'number' },
+    { name: 'description', label: 'Description', type: 'textarea' },
+    { name: 'status', label: 'Status', type: 'select', required: true, options: [{ label: 'Active', value: 'Active' }, { label: 'Inactive', value: 'Inactive' }] },
+  ],
+  selectSources: {
+    plantId: { endpoint: '/organization/plants?limit=100', labelKey: 'name', valueKey: 'id' },
+    lineId: { endpoint: '/organization/lines?limit=100', labelKey: 'name', valueKey: 'id' },
+  },
 };

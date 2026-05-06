@@ -128,6 +128,22 @@ class ShiftModel extends Model<InferAttributes<ShiftModel>, InferCreationAttribu
   declare status: string;
 }
 
+class MachineModel extends Model<InferAttributes<MachineModel>, InferCreationAttributes<MachineModel>> {
+  declare id: CreationOptional<number>;
+  declare name: string;
+  declare code: string;
+  declare plantId: number;
+  declare lineId: number;
+  declare serialNumber: string | null;
+  declare modelNumber: string | null;
+  declare operator: string | null;
+  declare capacity: number | null;
+  declare description: string | null;
+  declare status: string;
+  declare plant?: PlantModel;
+  declare line?: LineModel;
+}
+
 export const initModels = (sequelizeInstance: Sequelize) => {
   RoleModel.init(
     {
@@ -293,12 +309,33 @@ export const initModels = (sequelizeInstance: Sequelize) => {
     { sequelize: sequelizeInstance, tableName: 'shifts' },
   );
 
+  MachineModel.init(
+    {
+      id: { type: DataTypes.INTEGER.UNSIGNED, autoIncrement: true, primaryKey: true },
+      name: { type: DataTypes.STRING(150), allowNull: false },
+      code: { type: DataTypes.STRING(60), allowNull: false, unique: true },
+      plantId: { type: DataTypes.INTEGER.UNSIGNED, allowNull: false, field: 'plant_id' },
+      lineId: { type: DataTypes.INTEGER.UNSIGNED, allowNull: false, field: 'line_id' },
+      serialNumber: { type: DataTypes.STRING(120), allowNull: true, field: 'serial_number' },
+      modelNumber: { type: DataTypes.STRING(120), allowNull: true, field: 'model_number' },
+      operator: { type: DataTypes.STRING(150), allowNull: true },
+      capacity: { type: DataTypes.INTEGER, allowNull: true },
+      description: { type: DataTypes.TEXT, allowNull: true },
+      status: { type: DataTypes.ENUM('Active', 'Inactive'), allowNull: false, defaultValue: 'Active' },
+    },
+    { sequelize: sequelizeInstance, tableName: 'machines' },
+  );
+
   RoleModel.hasMany(UserModel, { foreignKey: 'roleId', as: 'users' });
   UserModel.belongsTo(RoleModel, { foreignKey: 'roleId', as: 'role' });
   DepartmentModel.hasMany(UserModel, { foreignKey: 'departmentId', as: 'users' });
   UserModel.belongsTo(DepartmentModel, { foreignKey: 'departmentId', as: 'department' });
   PlantModel.hasMany(LineModel, { foreignKey: 'plantId', as: 'lines' });
   LineModel.belongsTo(PlantModel, { foreignKey: 'plantId', as: 'plant' });
+  PlantModel.hasMany(MachineModel, { foreignKey: 'plantId', as: 'machines' });
+  LineModel.hasMany(MachineModel, { foreignKey: 'lineId', as: 'machines' });
+  MachineModel.belongsTo(PlantModel, { foreignKey: 'plantId', as: 'plant' });
+  MachineModel.belongsTo(LineModel, { foreignKey: 'lineId', as: 'line' });
   RoleModel.belongsToMany(PermissionModel, {
     through: RolePermissionModel,
     foreignKey: 'roleId',
@@ -325,6 +362,7 @@ export const initModels = (sequelizeInstance: Sequelize) => {
     Plant: PlantModel,
     Line: LineModel,
     Shift: ShiftModel,
+    Machine: MachineModel,
   };
 };
 
@@ -343,4 +381,5 @@ export const {
   Plant,
   Line,
   Shift,
+  Machine,
 } = models;

@@ -48,11 +48,28 @@ export const authenticate = async (req: AuthenticatedRequest, _res: Response, ne
 
 export const requirePermission = (permission: string) => {
   return (req: AuthenticatedRequest, _res: Response, next: NextFunction) => {
-    if (!req.user) {
+    const user = req.user;
+
+    if (!user) {
       next(new AppError('Authentication required', 401));
       return;
     }
-    if (req.user.roleName === 'Admin' || req.user.permissions.includes(permission)) {
+
+    const aliases = (() => {
+      if (!permission.includes('.')) {
+        return [permission];
+      }
+
+      const [scope, action] = permission.split('.');
+      const normalizedScope = scope.trim().toUpperCase();
+
+      if (action === 'read') return [`VIEW_${normalizedScope}`];
+      if (action === 'write') return [`ADD_${normalizedScope}`, `EDIT_${normalizedScope}`, `MANAGE_${normalizedScope}`];
+      if (action === 'delete' || action === 'remove') return [`DELETE_${normalizedScope}`];
+      return [permission];
+    })();
+
+    if (user.roleName === 'Admin' || aliases.some((candidate) => user.permissions.includes(candidate))) {
       next();
       return;
     }

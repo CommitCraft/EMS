@@ -1,5 +1,5 @@
 import bcrypt from 'bcryptjs';
-import { CompanyProfile, Department, Permission, Role, RolePermission, User, Plant, Line, Shift } from '../../models';
+import { CompanyProfile, Department, Permission, Role, RolePermission, User, Plant, Line, Shift, Machine } from '../../models';
 import { flattenPermissionCatalog } from '../constants/permissions';
 
 const defaultPermissions = flattenPermissionCatalog();
@@ -103,8 +103,20 @@ export const seedDatabase = async () => {
     { name: 'Packing Line 1', code: 'LINE_P1', plantId: seededPlants[2]?.id ?? 3, supervisor: 'Priya Nair', capacity: 120, description: 'Final packing line', status: 'Active' },
   ];
 
+  const seededLines = [];
   for (const line of lines) {
-    await Line.findOrCreate({ where: { code: line.code }, defaults: line });
+    const [record] = await Line.findOrCreate({ where: { code: line.code }, defaults: line });
+    seededLines.push(record);
+  }
+
+  const machines = [
+    { name: 'Compressor A1', code: 'MACH_A1', plantId: seededPlants[0]?.id ?? 1, lineId: seededLines[0]?.id ?? 1, serialNumber: 'SN-A1-001', modelNumber: 'MX-100', operator: 'Ravi Kumar', capacity: 100, description: 'Primary compressor on assembly line 1', status: 'Active' },
+    { name: 'Tester B1', code: 'MACH_B1', plantId: seededPlants[1]?.id ?? 2, lineId: seededLines[2]?.id ?? 3, serialNumber: 'SN-B1-001', modelNumber: 'TX-200', operator: 'Anita Sharma', capacity: 60, description: 'Quality testing machine', status: 'Active' },
+    { name: 'Packer C1', code: 'MACH_C1', plantId: seededPlants[2]?.id ?? 3, lineId: seededLines[3]?.id ?? 4, serialNumber: 'SN-C1-001', modelNumber: 'PK-300', operator: 'Sandeep Rao', capacity: 120, description: 'Packing machine for final dispatch', status: 'Active' },
+  ];
+
+  for (const machine of machines) {
+    await Machine.findOrCreate({ where: { code: machine.code }, defaults: machine });
   }
 
   // Seed Shifts

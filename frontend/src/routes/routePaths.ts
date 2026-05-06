@@ -17,6 +17,7 @@ export const ROUTE_PATHS = {
   plants: '/organization/plants',
   lines: '/organization/lines',
   shifts: '/organization/shifts',
+  machines: '/organization/machines',
 
   reports: '/reports',
   logs: '/logs',

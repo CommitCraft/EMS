@@ -36,6 +36,7 @@ export const PERMISSION_CATALOG: PermissionModuleSeed[] = [
       { label: 'Plants', actions: commonCrud('PLANTS') },
       { label: 'Lines', actions: commonCrud('LINES') },
       { label: 'Shifts', actions: commonCrud('SHIFTS') },
+      { label: 'Machines', actions: commonCrud('MACHINES') },
     ],
   },
   {

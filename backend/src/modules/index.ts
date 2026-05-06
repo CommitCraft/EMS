@@ -13,6 +13,7 @@ import logsRoutes from './logs/routes/logs.routes';
 import plantsRoutes from './plants/routes/plants.routes';
 import linesRoutes from './lines/routes/lines.routes';
 import shiftsRoutes from './shifts/routes/shifts.routes';
+import machinesRoutes from './machines/routes/machines.routes';
 
 const apiRouter = Router();
 
@@ -29,6 +30,7 @@ apiRouter.use('/logs', logsRoutes);
 apiRouter.use('/organization/plants', plantsRoutes);
 apiRouter.use('/organization/lines', linesRoutes);
 apiRouter.use('/organization/shifts', shiftsRoutes);
+apiRouter.use('/organization/machines', machinesRoutes);
 apiRouter.use('/', settingsRoutes);
 
 export default apiRouter;

@@ -19,6 +19,7 @@ const ErrorLogsPage = lazy(() => import('../pages/ErrorLogsPage'));
 const PlantsPage = lazy(() => import('../pages/organization/plants'));
 const LinesPage = lazy(() => import('../pages/organization/lines'));
 const ShiftsPage = lazy(() => import('../pages/organization/shifts'));
+const MachinesPage = lazy(() => import('../pages/organization/machines'));
 const PageNotFound = lazy(() => import('../pages/NotFoundPage'));
 
 export {
@@ -41,5 +42,6 @@ export {
   PlantsPage,
   LinesPage,
   ShiftsPage,
+  MachinesPage,
   PageNotFound,
 };
