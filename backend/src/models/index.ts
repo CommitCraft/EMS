@@ -147,6 +147,22 @@ class MachineModel extends Model<InferAttributes<MachineModel>, InferCreationAtt
   declare line?: LineModel;
 }
 
+class SupplierModel extends Model<InferAttributes<SupplierModel>, InferCreationAttributes<SupplierModel>> {
+  declare id: CreationOptional<number>;
+  declare name: string;
+  declare code: string;
+  declare email: string | null;
+  declare phone: string | null;
+  declare address: string | null;
+  declare city: string | null;
+  declare country: string | null;
+  declare contactPerson: string | null;
+  declare paymentTerms: string | null;
+  declare rating: number | null;
+  declare description: string | null;
+  declare status: string;
+}
+
 export const initModels = (sequelizeInstance: Sequelize) => {
   RoleModel.init(
     {
@@ -332,6 +348,25 @@ export const initModels = (sequelizeInstance: Sequelize) => {
     { sequelize: sequelizeInstance, tableName: 'machines' },
   );
 
+  SupplierModel.init(
+    {
+      id: { type: DataTypes.INTEGER.UNSIGNED, autoIncrement: true, primaryKey: true },
+      name: { type: DataTypes.STRING(150), allowNull: false, unique: true },
+      code: { type: DataTypes.STRING(50), allowNull: false, unique: true },
+      email: { type: DataTypes.STRING(180), allowNull: true },
+      phone: { type: DataTypes.STRING(30), allowNull: true },
+      address: { type: DataTypes.STRING(255), allowNull: true },
+      city: { type: DataTypes.STRING(100), allowNull: true },
+      country: { type: DataTypes.STRING(100), allowNull: true },
+      contactPerson: { type: DataTypes.STRING(150), allowNull: true, field: 'contact_person' },
+      paymentTerms: { type: DataTypes.STRING(100), allowNull: true, field: 'payment_terms' },
+      rating: { type: DataTypes.DECIMAL(3, 2), allowNull: true },
+      description: { type: DataTypes.TEXT, allowNull: true },
+      status: { type: DataTypes.ENUM('Active', 'Inactive'), allowNull: false, defaultValue: 'Active' },
+    },
+    { sequelize: sequelizeInstance, tableName: 'suppliers' },
+  );
+
   RoleModel.hasMany(UserModel, { foreignKey: 'roleId', as: 'users' });
   UserModel.belongsTo(RoleModel, { foreignKey: 'roleId', as: 'role' });
   DepartmentModel.hasMany(UserModel, { foreignKey: 'departmentId', as: 'users' });
@@ -369,6 +404,7 @@ export const initModels = (sequelizeInstance: Sequelize) => {
     Line: LineModel,
     Shift: ShiftModel,
     Machine: MachineModel,
+    Supplier: SupplierModel,
   };
 };
 
@@ -388,4 +424,5 @@ export const {
   Line,
   Shift,
   Machine,
+  Supplier,
 } = models;

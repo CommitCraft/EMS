@@ -1,5 +1,62 @@
 import { CrudConfig } from '../../types';
 
+const countryOptions = (() => {
+  try {
+    const regionCodes =
+      (Intl as typeof Intl & { supportedValuesOf?: (key: 'region') => string[] }).supportedValuesOf?.('region') || [];
+    const displayNames = new Intl.DisplayNames(['en'], { type: 'region' });
+
+    return regionCodes
+      .map((code) => {
+        const label = displayNames.of(code) || code;
+        return { label, value: label };
+      })
+      .sort((left, right) => left.label.localeCompare(right.label));
+  } catch {
+    return [
+      'Afghanistan',
+      'Albania',
+      'Algeria',
+      'Argentina',
+      'Australia',
+      'Austria',
+      'Bangladesh',
+      'Belgium',
+      'Brazil',
+      'Canada',
+      'China',
+      'Denmark',
+      'Egypt',
+      'France',
+      'Germany',
+      'India',
+      'Indonesia',
+      'Italy',
+      'Japan',
+      'Malaysia',
+      'Mexico',
+      'Netherlands',
+      'New Zealand',
+      'Pakistan',
+      'Philippines',
+      'Poland',
+      'Singapore',
+      'South Africa',
+      'South Korea',
+      'Spain',
+      'Sri Lanka',
+      'Sweden',
+      'Switzerland',
+      'Thailand',
+      'Turkey',
+      'United Arab Emirates',
+      'United Kingdom',
+      'United States',
+      'Vietnam',
+    ].map((label) => ({ label, value: label }));
+  }
+})();
+
 export const userConfig: CrudConfig & { selectSources: Record<string, { endpoint: string; labelKey: string; valueKey: string }> } = {
   title: 'Users',
   endpoint: '/users',
@@ -89,7 +146,35 @@ export const departmentConfig: CrudConfig = {
   ],
 };
 
-
+export const supplierConfig: CrudConfig = {
+  title: 'Suppliers',
+  endpoint: '/organization/suppliers',
+  description: 'Manage supplier master data including contact information, payment terms, and ratings.',
+  searchPlaceholder: 'Search suppliers by name, code, email, phone, city, or country',
+  columns: [
+    { key: 'name', label: 'Name' },
+    { key: 'code', label: 'Code' },
+    { key: 'email', label: 'Email' },
+    { key: 'phone', label: 'Phone' },
+    { key: 'city', label: 'City' },
+    { key: 'rating', label: 'Rating' },
+    { key: 'status', label: 'Status' },
+  ],
+  fields: [
+    { name: 'name', label: 'Supplier Name', type: 'text', required: true },
+    { name: 'code', label: 'Supplier Code', type: 'text', required: true },
+    { name: 'email', label: 'Email', type: 'email' },
+    { name: 'phone', label: 'Phone', type: 'text' },
+    { name: 'address', label: 'Address', type: 'textarea' },
+    { name: 'city', label: 'City', type: 'text' },
+    { name: 'country', label: 'Country', type: 'select', searchable: true, options: countryOptions, placeholder: 'Search and select country' },
+    { name: 'contactPerson', label: 'Contact Person', type: 'text' },
+    { name: 'paymentTerms', label: 'Payment Terms', type: 'text' },
+    { name: 'rating', label: 'Rating (1-5)', type: 'select', options: [1, 2, 3, 4, 5].map((value) => ({ label: String(value), value })), placeholder: 'Select rating' },
+    { name: 'description', label: 'Description', type: 'textarea' },
+    { name: 'status', label: 'Status', type: 'select', required: true, options: [{ label: 'Active', value: 'Active' }, { label: 'Inactive', value: 'Inactive' }] },
+  ],
+};
 
 
 export const smtpConfig: CrudConfig = {

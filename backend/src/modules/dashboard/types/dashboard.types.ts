@@ -5,6 +5,7 @@ export type DashboardSummary = {
   lines: number;
   shifts: number;
   machines: number;
+  suppliers: number;
   roles: number;
   roleUsers: number;
   pendingApprovals: number;

@@ -3,6 +3,7 @@ import {
   LinesPage,
   ShiftsPage,
   MachinesPage,
+  SuppliersPage,
 } from '../pageRegistry';
 import { ROUTE_PATHS } from '../routePaths';
 import type { PermissionRouteGroup } from '../routeTypes';
@@ -23,5 +24,9 @@ export const organizationRouteGroups: PermissionRouteGroup[] = [
   {
     requiredPermissions: ['VIEW_MACHINES'],
     routes: [{ path: ROUTE_PATHS.machines, element: <MachinesPage /> }],
+  },
+  {
+    requiredPermissions: ['VIEW_SUPPLIERS'],
+    routes: [{ path: ROUTE_PATHS.suppliers, element: <SuppliersPage /> }],
   },
 ];

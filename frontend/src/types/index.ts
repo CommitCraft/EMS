@@ -36,6 +36,7 @@ export interface DashboardSummary {
   lines: number;
   shifts: number;
   machines: number;
+  suppliers: number;
   roles: number;
   roleUsers: number;
   pendingApprovals: number;
@@ -85,6 +86,7 @@ export interface FormField {
   type: 'text' | 'email' | 'password' | 'select' | 'textarea' | 'checkbox' | 'asset' | 'number' | 'time' | 'date';
   required?: boolean;
   options?: SelectOption[];
+  searchable?: boolean;
   optionalOnEdit?: boolean;
   helperText?: string;
   endpoint?: string;

@@ -1,16 +1,17 @@
 import { Response } from 'express';
 import { Op, fn, literal } from 'sequelize';
 import { AuthenticatedRequest } from '../../../common/middleware';
-import { Department, Line, Machine, Plant, Shift, User, Role } from '../../../models';
+import { Department, Line, Machine, Plant, Shift, Supplier, User, Role } from '../../../models';
 
 export const getSummary = async (_req: AuthenticatedRequest, res: Response) => {
-  const [totalUsers, departments, plants, lines, shifts, machines, roles, roleUsers] = await Promise.all([
+  const [totalUsers, departments, plants, lines, shifts, machines, suppliers, roles, roleUsers] = await Promise.all([
     User.count(),
     Department.count(),
     Plant.count(),
     Line.count(),
     Shift.count(),
     Machine.count(),
+    Supplier.count(),
     Role.count(),
     User.count({ where: { roleId: { [Op.gt]: 0 } } }),
   ]);
@@ -24,6 +25,7 @@ export const getSummary = async (_req: AuthenticatedRequest, res: Response) => {
       lines,
       shifts,
       machines,
+      suppliers,
       roles,
       roleUsers,
       pendingApprovals: 0,

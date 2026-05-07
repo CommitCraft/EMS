@@ -48,7 +48,7 @@ export const Sidebar = ({
               {logoUrl ? (
                 <img src={logoUrl} alt="Company Logo" className="h-[44px] w-auto object-contain" />
               ) : (
-                <div className="text-xl font-bold text-white">QMS</div>
+                <div className="text-xl font-bold text-white">MES</div>
               )}
             </div>
           ) : (
@@ -59,7 +59,7 @@ export const Sidebar = ({
               {faviconUrl ? (
                 <img src={faviconUrl} alt="Company Icon" className="h-8 w-8 rounded-lg object-contain" />
               ) : (
-                <span className="text-sm font-bold text-white">Q</span>
+                <span className="text-sm font-bold text-white">M</span>
               )}
             </div>
           )}

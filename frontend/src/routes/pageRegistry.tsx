@@ -9,6 +9,7 @@ const RolesPage = lazy(() => import('../pages/access-control/roles'));
 const RoleUsersPage = lazy(() => import('../pages/access-control/role-users'));
 const PermissionsPage = lazy(() => import('../pages/PermissionsPage'));
 const DepartmentsPage = lazy(() => import('../pages/DepartmentsPage'));
+const SuppliersPage = lazy(() => import('../pages/SuppliersPage'));
 const ReportsPage = lazy(() => import('../pages/reports'));
 const SettingsPage = lazy(() => import('../pages/settings'));
 const SmtpSettingsPage = lazy(() => import('../pages/SmtpSettingsPage'));
@@ -32,6 +33,7 @@ export {
   RoleUsersPage,
   PermissionsPage,
   DepartmentsPage,
+  SuppliersPage,
   ReportsPage,
   SettingsPage,
   SmtpSettingsPage,

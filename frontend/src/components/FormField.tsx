@@ -101,6 +101,37 @@ export const FormField = ({ field, value, onChange, options, requiredOverride }:
   }
 
   if (field.type === 'select') {
+    const selectOptions = options || field.options || [];
+
+    if (field.searchable) {
+      const listId = `${field.name}-options`;
+
+      return (
+        <label className="block">
+          <span className={labelClass}>{field.label}</span>
+
+          <input
+            className={inputClass}
+            list={listId}
+            value={String(value ?? '')}
+            placeholder={field.placeholder || `Search ${field.label.toLowerCase()}`}
+            required={isRequired}
+            onChange={(event) => onChange(field.name, event.target.value)}
+          />
+
+          <datalist id={listId}>
+            {selectOptions.map((option) => (
+              <option key={String(option.value)} value={String(option.value)}>
+                {option.label}
+              </option>
+            ))}
+          </datalist>
+
+          {field.helperText ? <span className={helperClass}>{field.helperText}</span> : null}
+        </label>
+      );
+    }
+
     return (
       <label className="block">
         <span className={labelClass}>{field.label}</span>
@@ -112,7 +143,7 @@ export const FormField = ({ field, value, onChange, options, requiredOverride }:
           onChange={(event) => onChange(field.name, event.target.value)}
         >
           <option value="">Select {field.label}</option>
-          {(options || field.options || []).map((option) => (
+          {selectOptions.map((option) => (
             <option key={String(option.value)} value={option.value}>
               {option.label}
             </option>

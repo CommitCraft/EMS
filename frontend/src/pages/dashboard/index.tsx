@@ -118,7 +118,7 @@ const DashboardPage = () => {
             <StatCard
               title="Plants"
               value={summary?.plants ?? 0}
-              tone="industrial"
+              tone="cyan"
             />
           </button>
           <button
@@ -154,6 +154,17 @@ const DashboardPage = () => {
               tone="slate"
             />
           </button>
+          <button
+            type="button"
+            onClick={() => navigate("/organization/suppliers")}
+            className="cursor-pointer transition hover:opacity-80"
+          >
+            <StatCard
+              title="Suppliers"
+              value={summary?.suppliers ?? 0}
+              tone="teal"
+            />
+          </button>
         </div>
       </div>
 
@@ -181,7 +192,7 @@ const DashboardPage = () => {
             <StatCard
               title="Users"
               value={summary?.totalUsers ?? 0}
-              tone="mint"
+              tone="green"
             />
           </button>
           <button
@@ -192,7 +203,7 @@ const DashboardPage = () => {
             <StatCard
               title="Role Users"
               value={summary?.roleUsers ?? 0}
-              tone="lavender"
+              tone="violet"
             />
           </button>
         </div>
