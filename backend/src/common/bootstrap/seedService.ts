@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../../config/database';
-import { CompanyProfile, Department, Permission, Role, RolePermission, User, Plant, Line, Shift, Machine } from '../../models';
+import { CompanyProfile, Department, Permission, Role, RolePermission, Supplier, User, Plant, Line, Shift, Machine } from '../../models';
 import { flattenPermissionCatalog } from '../constants/permissions';
 
 const defaultPermissions = flattenPermissionCatalog();
@@ -161,5 +161,55 @@ export const seedDatabase = async () => {
 
   for (const shift of shifts) {
     await Shift.findOrCreate({ where: { name: shift.name }, defaults: shift });
+  }
+
+  // Seed Suppliers
+  const suppliers = [
+    {
+      name: 'Apex Industrial Supplies',
+      code: 'SUP-APEX',
+      email: 'sales@apexindustrial.com',
+      phone: '+91 98765 43210',
+      address: '12 MIDC Road, Andheri East',
+      city: 'Mumbai',
+      country: 'India',
+      contactPerson: 'Nitin Shah',
+      paymentTerms: 'Net 30',
+      rating: 4.8,
+      description: 'Primary supplier for industrial consumables and spares.',
+      status: 'Active',
+    },
+    {
+      name: 'Global Pack Components',
+      code: 'SUP-GPC',
+      email: 'info@globalpack.com',
+      phone: '+1 555 203 7788',
+      address: '44 Harbor Drive',
+      city: 'Singapore',
+      country: 'Singapore',
+      contactPerson: 'Mei Lin Tan',
+      paymentTerms: 'Net 45',
+      rating: 4.5,
+      description: 'Packaging and labeling components supplier.',
+      status: 'Active',
+    },
+    {
+      name: 'Precision Tooling Co.',
+      code: 'SUP-PTC',
+      email: 'orders@precisiontooling.co',
+      phone: '+44 20 7946 0123',
+      address: '88 Crown Street',
+      city: 'London',
+      country: 'United Kingdom',
+      contactPerson: 'Oliver Bennett',
+      paymentTerms: 'Advance',
+      rating: 4.2,
+      description: 'Machining tools and maintenance hardware supplier.',
+      status: 'Active',
+    },
+  ];
+
+  for (const supplier of suppliers) {
+    await Supplier.findOrCreate({ where: { code: supplier.code }, defaults: supplier });
   }
 }

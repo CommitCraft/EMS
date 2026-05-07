@@ -31,7 +31,7 @@ export const navSections: NavSection[] = [
           { label: "Shifts", to: "/organization/shifts", requiredPermissions: ["VIEW_SHIFTS"] },
           { label: "Machines", to: "/organization/machines", requiredPermissions: ["VIEW_MACHINES"] },
           { label: "Suppliers", to: "/organization/suppliers", requiredPermissions: ["VIEW_SUPPLIERS"] },
-          { label: "Departments", to: "/organization/departments", requiredPermissions: ["VIEW_USERS"] },
+          { label: "Departments", to: "/organization/departments", requiredPermissions: ["VIEW_DEPARTMENTS"] },
         ],
       },
       {

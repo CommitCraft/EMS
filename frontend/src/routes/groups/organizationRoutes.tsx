@@ -1,4 +1,5 @@
 import {
+  DepartmentsPage,
   PlantsPage,
   LinesPage,
   ShiftsPage,
@@ -24,6 +25,10 @@ export const organizationRouteGroups: PermissionRouteGroup[] = [
   {
     requiredPermissions: ['VIEW_MACHINES'],
     routes: [{ path: ROUTE_PATHS.machines, element: <MachinesPage /> }],
+  },
+  {
+    requiredPermissions: ['VIEW_DEPARTMENTS'],
+    routes: [{ path: ROUTE_PATHS.departments, element: <DepartmentsPage /> }],
   },
   {
     requiredPermissions: ['VIEW_SUPPLIERS'],

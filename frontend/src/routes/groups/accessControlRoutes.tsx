@@ -1,5 +1,4 @@
 import {
-  DepartmentsPage,
   PermissionsPage,
   RoleUsersPage,
   RolesPage,
@@ -12,10 +11,6 @@ export const accessControlRouteGroups: PermissionRouteGroup[] = [
   {
     requiredPermissions: ['VIEW_USERS'],
     routes: [{ path: ROUTE_PATHS.users, element: <UsersPage /> }],
-  },
-  {
-    requiredPermissions: ['VIEW_USERS'],
-    routes: [{ path: ROUTE_PATHS.departments, element: <DepartmentsPage /> }],
   },
   {
     requiredPermissions: ['VIEW_ROLES'],

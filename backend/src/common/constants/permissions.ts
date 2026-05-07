@@ -37,6 +37,8 @@ export const PERMISSION_CATALOG: PermissionModuleSeed[] = [
       { label: 'Lines', actions: commonCrud('LINES') },
       { label: 'Shifts', actions: commonCrud('SHIFTS') },
       { label: 'Machines', actions: commonCrud('MACHINES') },
+      { label: 'Suppliers', actions: commonCrud('SUPPLIERS') },
+      { label: 'Departments', actions: commonCrud('DEPARTMENTS') },
     ],
   },
   {
@@ -45,7 +47,6 @@ export const PERMISSION_CATALOG: PermissionModuleSeed[] = [
       { label: 'Roles', actions: commonCrud('ROLES') },
       { label: 'Users', actions: commonCrud('USERS') },
       { label: 'Role User', actions: manageActions('ROLE_USER') },
-      { label: 'Departments', actions: commonCrud('DEPARTMENTS') },
       { label: 'Permissions', actions: viewOnly('View', 'VIEW_PERMISSIONS') },
     ],
   },
