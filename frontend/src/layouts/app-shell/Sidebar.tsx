@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
+import { useNavigate } from "react-router-dom";
 import { ChevronLeftIcon, ChevronRightIcon, CloseIcon } from "./icons";
 import { SidebarNavItem } from "./SidebarNavItem";
 import { NavItem } from "./types";
@@ -30,6 +31,7 @@ export const Sidebar = ({
   logoUrl,
   faviconUrl,
 }: SidebarProps) => {
+  const navigate = useNavigate();
   return (
     <>
       <aside
@@ -39,7 +41,10 @@ export const Sidebar = ({
       >
         <div className="sticky top-0 z-20 mb-3 flex items-center justify-between bg-[#2f3440] py-1">
           {!collapsed ? (
-            <div className="flex min-h-[48px] items-center">
+            <div
+              className="flex min-h-[48px] items-center cursor-pointer transition hover:opacity-80"
+              onClick={() => navigate("/dashboard")}
+            >
               {logoUrl ? (
                 <img src={logoUrl} alt="Company Logo" className="h-[44px] w-auto object-contain" />
               ) : (
@@ -47,7 +52,10 @@ export const Sidebar = ({
               )}
             </div>
           ) : (
-            <div className="mx-auto flex h-11 w-11 items-center justify-center rounded-xl bg-white/10">
+            <div
+              className="mx-auto flex h-11 w-11 items-center justify-center rounded-xl bg-white/10 cursor-pointer transition hover:bg-white/20"
+              onClick={() => navigate("/dashboard")}
+            >
               {faviconUrl ? (
                 <img src={faviconUrl} alt="Company Icon" className="h-8 w-8 rounded-lg object-contain" />
               ) : (
@@ -87,11 +95,16 @@ export const Sidebar = ({
         }`}
       >
         <div className="mb-3 flex min-h-[48px] items-center justify-between">
-          {logoUrl ? (
-            <img src={logoUrl} alt="Company Logo" className="h-[44px] w-auto object-contain" />
-          ) : (
-            <div className="text-xl font-bold text-white">QMS</div>
-          )}
+          <div
+            className="flex items-center cursor-pointer transition hover:opacity-80"
+            onClick={() => navigate("/dashboard")}
+          >
+            {logoUrl ? (
+              <img src={logoUrl} alt="Company Logo" className="h-[44px] w-auto object-contain" />
+            ) : (
+              <div className="text-xl font-bold text-white">QMS</div>
+            )}
+          </div>
 
           <button
             className="grid h-9 w-9 place-items-center rounded-xl border border-white/10 bg-white/5 text-white transition hover:bg-white/10"
