@@ -5,6 +5,7 @@ type HeaderUser = {
   name?: string;
   email?: string;
   roleName?: string;
+  profileImage?: string | null;
 };
 
 type ProfileMenuProps = {
@@ -24,14 +25,32 @@ export const ProfileMenu = ({
   onOpenProfile,
   onLogout,
 }: ProfileMenuProps) => {
+  const apiBase = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
+  const backendBase = apiBase.replace(/\/api\/?$/, '');
+  const resolveAssetUrl = (url?: string | null) => {
+    const value = String(url ?? '').trim();
+    if (!value) return '';
+    if (/^https?:\/\//i.test(value) || value.startsWith('data:') || value.startsWith('blob:')) return value;
+    return `${backendBase}${value.startsWith('/') ? '' : '/'}${value}`;
+  };
   return (
     <div className="relative" ref={profileMenuRef}>
       <button
-        className="grid h-10 w-10 place-items-center overflow-hidden rounded-full border border-[#d1d5db] bg-white text-slate-700 shadow-sm transition hover:bg-slate-50"
+        className="flex items-center gap-3 rounded-full border border-[#d1d5db] bg-white px-2 py-1 text-slate-700 shadow-sm transition hover:bg-slate-50"
         title={user?.name || 'User'}
         onClick={() => setProfileMenuOpen((value) => !value)}
       >
-        <UserAvatarIcon />
+        <div className="h-10 w-10 overflow-hidden rounded-full bg-slate-100">
+          {user?.profileImage ? (
+            <img src={resolveAssetUrl(user.profileImage)} alt={user?.name || 'User'} className="h-full w-full object-cover" />
+          ) : (
+            <UserAvatarIcon />
+          )}
+        </div>
+        <div className="hidden sm:block text-left">
+          <div className="text-sm font-semibold text-slate-900">{user?.name}</div>
+          <div className="text-xs text-slate-500">{user?.roleName}</div>
+        </div>
       </button>
 
       {profileMenuOpen ? (

@@ -270,11 +270,7 @@ const RolesPage = () => {
 					</div>
 
 					<div>
-						<div className="mb-3 flex gap-3">
-							<button className="px-3 py-1 rounded bg-indigo-600 text-white" onClick={() => setPermissionSearch('Plants')}>Manage Plants</button>
-							<button className="px-3 py-1 rounded bg-indigo-600 text-white" onClick={() => setPermissionSearch('Lines')}>Manage Lines</button>
-							<button className="px-3 py-1 rounded bg-indigo-600 text-white" onClick={() => setPermissionSearch('Shifts')}>Manage Shifts</button>
-						</div>
+
 						<PermissionMatrix selectedPermissions={selectedPermissions} onChange={setSelectedPermissions} initialSearch={permissionSearch} />
 					</div>
 				</div>

@@ -24,6 +24,15 @@ const ensureSpecificationsColumns = async () => {
       allowNull: true,
     });
   }
+
+  // Ensure users.profile_image exists (for avatar support)
+  const userColumns = await queryInterface.describeTable('users');
+  if (!Object.prototype.hasOwnProperty.call(userColumns, 'profile_image')) {
+    await queryInterface.addColumn('users', 'profile_image', {
+      type: DataTypes.STRING(500),
+      allowNull: true,
+    });
+  }
 };
 
 export const seedDatabase = async () => {

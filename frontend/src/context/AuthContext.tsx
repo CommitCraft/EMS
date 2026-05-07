@@ -42,7 +42,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
     try {
       const response = await authService.me();
-      setUser(response.data || null);
+      const rawUser = response.data as (UserSession & { role?: { name?: string }; profile_image?: string | null }) | undefined;
+
+      if (!rawUser) {
+        setUser(null);
+      } else {
+        setUser({
+          ...rawUser,
+          roleName: rawUser.roleName || rawUser.role?.name || undefined,
+          profileImage: rawUser.profileImage || rawUser.profile_image || null,
+        });
+      }
     } catch {
       handleSessionExpired();
     } finally {

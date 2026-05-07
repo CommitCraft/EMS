@@ -18,7 +18,7 @@ export const authService = {
     const response = await api.post<ApiResponse<null>>('/auth/forgot-password', { email });
     return response.data;
   },
-  updateProfile: async (payload: { name: string; email: string; mobile?: string }) => {
+  updateProfile: async (payload: { name?: string; email?: string; mobile?: string; profileImage?: string }) => {
     const response = await api.put<ApiResponse<UserSession>>('/auth/profile', payload);
     return response.data;
   },

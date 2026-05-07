@@ -13,6 +13,7 @@ type HeaderUser = {
   name?: string;
   email?: string;
   roleName?: string;
+  profileImage?: string | null;
 };
 
 type AppHeaderProps = {

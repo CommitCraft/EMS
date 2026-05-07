@@ -37,6 +37,7 @@ class UserModel extends Model<InferAttributes<UserModel>, InferCreationAttribute
   declare username: string;
   declare email: string;
   declare mobile: string | null;
+  declare profileImage: string | null;
   declare password: string;
   declare roleId: number;
   declare departmentId: number | null;
@@ -195,6 +196,7 @@ export const initModels = (sequelizeInstance: Sequelize) => {
       username: { type: DataTypes.STRING(120), allowNull: false, unique: true },
       email: { type: DataTypes.STRING(180), allowNull: false, unique: true },
       mobile: { type: DataTypes.STRING(30), allowNull: true },
+      profileImage: { type: DataTypes.STRING(500), allowNull: true, field: 'profile_image' },
       password: { type: DataTypes.STRING(255), allowNull: false },
       roleId: { type: DataTypes.INTEGER.UNSIGNED, allowNull: false, field: 'role_id' },
       departmentId: { type: DataTypes.INTEGER.UNSIGNED, allowNull: true, field: 'department_id' },

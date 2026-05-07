@@ -101,6 +101,7 @@ export const login = async (req: AuthenticatedRequest, res: Response) => {
       name: user.name,
       username: user.username,
       email: user.email,
+      profileImage: (user as any).profileImage || null,
       roleId: user.roleId,
       roleName: user.role?.name,
       permissions,
@@ -184,6 +185,7 @@ export const updateProfile = async (req: AuthenticatedRequest, res: Response) =>
     name?: string;
     email?: string;
     mobile?: string;
+    profileImage?: string;
   };
 
   const user = await User.findByPk(req.user.id, { include: [{ association: 'role' }] });
@@ -216,6 +218,10 @@ export const updateProfile = async (req: AuthenticatedRequest, res: Response) =>
     user.mobile = normalizedMobile || null;
   }
 
+  if ((req.body as any).profileImage !== undefined) {
+    user.profileImage = (req.body as any).profileImage || null;
+  }
+
   await user.save();
 
   await logActivity({
@@ -234,6 +240,7 @@ export const updateProfile = async (req: AuthenticatedRequest, res: Response) =>
       name: user.name,
       username: user.username,
       email: user.email,
+      profileImage: user.profileImage || null,
       mobile: user.mobile,
       roleId: user.roleId,
       roleName: user.role?.name,

@@ -20,6 +20,7 @@ export interface UserSession {
   username: string;
   email: string;
   mobile?: string | null;
+  profileImage?: string | null;
   roleId: number;
   roleName?: string;
   permissions?: string[];
