@@ -1,16 +1,31 @@
 import { Response } from 'express';
-import { fn, literal } from 'sequelize';
+import { Op, fn, literal } from 'sequelize';
 import { AuthenticatedRequest } from '../../../common/middleware';
-import { Department, User } from '../../../models';
+import { Department, Line, Machine, Plant, Shift, User, Role } from '../../../models';
 
 export const getSummary = async (_req: AuthenticatedRequest, res: Response) => {
-  const [totalUsers, departments] = await Promise.all([User.count(), Department.count()]);
+  const [totalUsers, departments, plants, lines, shifts, machines, roles, roleUsers] = await Promise.all([
+    User.count(),
+    Department.count(),
+    Plant.count(),
+    Line.count(),
+    Shift.count(),
+    Machine.count(),
+    Role.count(),
+    User.count({ where: { roleId: { [Op.gt]: 0 } } }),
+  ]);
 
   res.json({
     success: true,
     data: {
       totalUsers,
       departments,
+      plants,
+      lines,
+      shifts,
+      machines,
+      roles,
+      roleUsers,
       pendingApprovals: 0,
       totalDocuments: 0,
       openCapa: 0,

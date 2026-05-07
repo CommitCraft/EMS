@@ -11,9 +11,9 @@ export const ROUTE_PATHS = {
   rolesManage: '/roles/manage',
   roleUsers: '/roles/users',
   permissions: '/permissions',
-  departments: '/departments',
 
   // Organization
+  departments: '/organization/departments',
   plants: '/organization/plants',
   lines: '/organization/lines',
   shifts: '/organization/shifts',

@@ -32,7 +32,7 @@ export const userConfig: CrudConfig & { selectSources: Record<string, { endpoint
   ],
   selectSources: {
     roleId: { endpoint: '/roles?limit=100', labelKey: 'name', valueKey: 'id' },
-    departmentId: { endpoint: '/departments?limit=100', labelKey: 'name', valueKey: 'id' },
+    departmentId: { endpoint: '/organization/departments?limit=100', labelKey: 'name', valueKey: 'id' },
   },
 };
 
@@ -71,7 +71,7 @@ export const permissionConfig: CrudConfig = {
 
 export const departmentConfig: CrudConfig = {
   title: 'Departments',
-  endpoint: '/departments',
+  endpoint: '/organization/departments',
   description: 'Maintain master department records for owners, workflows, and reporting.',
   searchPlaceholder: 'Search departments',
   columns: [

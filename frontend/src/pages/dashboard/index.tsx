@@ -1,5 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
-import { Bar } from 'react-chartjs-2';
+import { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Bar } from "react-chartjs-2";
 import {
   BarElement,
   CategoryScale,
@@ -7,25 +8,25 @@ import {
   Legend,
   LinearScale,
   Tooltip,
-} from 'chart.js';
-import toast from 'react-hot-toast';
-import { StatCard } from '../../components/StatCard';
-import { ChartPanel } from '../../components/ChartPanel';
-import { Spinner } from '../../components/Spinner';
-import { dashboardService } from '../../services/dashboardService';
-import { DashboardCharts, DashboardSummary } from '../../types';
+} from "chart.js";
+import toast from "react-hot-toast";
+import { StatCard } from "../../components/StatCard";
+import { ChartPanel } from "../../components/ChartPanel";
+import { Spinner } from "../../components/Spinner";
+import { dashboardService } from "../../services/dashboardService";
+import { DashboardCharts, DashboardSummary } from "../../types";
 
 ChartJS.register(BarElement, CategoryScale, Legend, LinearScale, Tooltip);
 
-const chartTextColor = '#334155';
-const chartMutedColor = '#64748b';
-const chartGridColor = '#e2e8f0';
+const chartTextColor = "#334155";
+const chartMutedColor = "#64748b";
+const chartGridColor = "#e2e8f0";
 
 const commonLegendOptions = {
   labels: {
     color: chartTextColor,
     usePointStyle: true,
-    pointStyle: 'circle' as const,
+    pointStyle: "circle" as const,
     padding: 18,
     font: {
       size: 12,
@@ -35,9 +36,9 @@ const commonLegendOptions = {
 };
 
 const commonTooltipOptions = {
-  backgroundColor: '#0f172a',
-  titleColor: '#ffffff',
-  bodyColor: '#e2e8f0',
+  backgroundColor: "#0f172a",
+  titleColor: "#ffffff",
+  bodyColor: "#e2e8f0",
   padding: 12,
   cornerRadius: 10,
 };
@@ -46,6 +47,7 @@ const DashboardPage = () => {
   const [summary, setSummary] = useState<DashboardSummary | null>(null);
   const [charts, setCharts] = useState<DashboardCharts | null>(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const loadDashboard = async () => {
@@ -59,7 +61,7 @@ const DashboardPage = () => {
         setCharts(chartsResponse.data || null);
       } catch (error) {
         console.error(error);
-        toast.error('Unable to load dashboard');
+        toast.error("Unable to load dashboard");
       } finally {
         setLoading(false);
       }
@@ -73,9 +75,11 @@ const DashboardPage = () => {
       labels: charts?.departmentIssues.map((item) => item.name) || [],
       datasets: [
         {
-          label: 'Users',
-          data: charts?.departmentIssues.map((item) => Number(item.users || 0)) || [],
-          backgroundColor: '#f97316',
+          label: "Users",
+          data:
+            charts?.departmentIssues.map((item) => Number(item.users || 0)) ||
+            [],
+          backgroundColor: "#f97316",
           borderRadius: 10,
           maxBarThickness: 44,
         },
@@ -90,10 +94,108 @@ const DashboardPage = () => {
 
   return (
     <div className="space-y-6">
-      <div className="grid gap-4 sm:grid-cols-3 xl:grid-cols-3">
-        <StatCard title="Total Users" value={summary?.totalUsers ?? 0} tone="accent" />
-        <StatCard title="Departments" value={summary?.departments ?? 0} tone="neutral" />
-        <StatCard title="Pending Approvals" value={summary?.pendingApprovals ?? 0} tone="copper" />
+          <div>
+        <h3 className="mb-3 text-base font-semibold text-slate-800">
+          Organization Overview
+        </h3>
+        <div className="grid gap-4 sm:grid-cols-3 xl:grid-cols-6">
+          <button
+            type="button"
+            onClick={() => navigate("/organization/departments")}
+            className="cursor-pointer transition hover:opacity-80"
+          >
+            <StatCard
+              title="Departments"
+              value={summary?.departments ?? 0}
+              tone="purple"
+            />
+          </button>
+          <button
+            type="button"
+            onClick={() => navigate("/organization/plants")}
+            className="cursor-pointer transition hover:opacity-80"
+          >
+            <StatCard
+              title="Plants"
+              value={summary?.plants ?? 0}
+              tone="industrial"
+            />
+          </button>
+          <button
+            type="button"
+            onClick={() => navigate("/organization/lines")}
+            className="cursor-pointer transition hover:opacity-80"
+          >
+            <StatCard
+              title="Lines"
+              value={summary?.lines ?? 0}
+              tone="emerald"
+            />
+          </button>
+          <button
+            type="button"
+            onClick={() => navigate("/organization/shifts")}
+            className="cursor-pointer transition hover:opacity-80"
+          >
+            <StatCard
+              title="Shifts"
+              value={summary?.shifts ?? 0}
+              tone="amber"
+            />
+          </button>
+          <button
+            type="button"
+            onClick={() => navigate("/organization/machines")}
+            className="cursor-pointer transition hover:opacity-80"
+          >
+            <StatCard
+              title="Machines"
+              value={summary?.machines ?? 0}
+              tone="slate"
+            />
+          </button>
+        </div>
+      </div>
+
+      <div>
+        <h3 className="mb-3 text-base font-semibold text-slate-800">
+          Access Control
+        </h3>
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+          <button
+            type="button"
+            onClick={() => navigate("/roles")}
+            className="cursor-pointer transition hover:opacity-80"
+          >
+            <StatCard
+              title="Roles"
+              value={summary?.roles ?? 0}
+              tone="indigo"
+            />
+          </button>
+          <button
+            type="button"
+            onClick={() => navigate("/users")}
+            className="cursor-pointer transition hover:opacity-80"
+          >
+            <StatCard
+              title="Users"
+              value={summary?.totalUsers ?? 0}
+              tone="mint"
+            />
+          </button>
+          <button
+            type="button"
+            onClick={() => navigate("/roles/users")}
+            className="cursor-pointer transition hover:opacity-80"
+          >
+            <StatCard
+              title="Role Users"
+              value={summary?.roleUsers ?? 0}
+              tone="lavender"
+            />
+          </button>
+        </div>
       </div>
 
       <ChartPanel
@@ -108,8 +210,8 @@ const DashboardPage = () => {
               maintainAspectRatio: false,
               plugins: {
                 legend: {
-                  position: 'top',
-                  align: 'end',
+                  position: "top",
+                  align: "end",
                   ...commonLegendOptions,
                 },
                 tooltip: commonTooltipOptions,

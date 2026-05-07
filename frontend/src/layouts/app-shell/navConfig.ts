@@ -29,7 +29,7 @@ export const navSections: NavSection[] = [
           { label: "Lines", to: "/organization/lines", requiredPermissions: ["VIEW_LINES"] },
           { label: "Shifts", to: "/organization/shifts", requiredPermissions: ["VIEW_SHIFTS"] },
           { label: "Machines", to: "/organization/machines", requiredPermissions: ["VIEW_MACHINES"] },
-          { label: "Departments", to: "/departments", requiredPermissions: ["VIEW_USERS"] },
+          { label: "Departments", to: "/organization/departments", requiredPermissions: ["VIEW_USERS"] },
         ],
       },
       {

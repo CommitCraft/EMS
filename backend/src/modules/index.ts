@@ -25,7 +25,7 @@ apiRouter.use('/roles/users', roleUsersRoutes);
 apiRouter.use('/users', usersRoutes);
 apiRouter.use('/roles', rolesRoutes);
 apiRouter.use('/permissions', permissionsRoutes);
-apiRouter.use('/departments', departmentsRoutes);
+apiRouter.use('/organization/departments', departmentsRoutes);
 apiRouter.use('/logs', logsRoutes);
 apiRouter.use('/organization/plants', plantsRoutes);
 apiRouter.use('/organization/lines', linesRoutes);

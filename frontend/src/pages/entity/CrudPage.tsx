@@ -40,9 +40,12 @@ export const CrudPage = ({ config }: CrudPageProps) => {
         if (!field.showWhen) {
           return true;
         }
-        return field.showWhen.values.includes(
-          String(form[field.showWhen.field] ?? ""),
-        );
+        if (typeof field.showWhen === 'function') {
+          return field.showWhen(form);
+        }
+        return field.showWhen.values?.includes(
+          String(form[field.showWhen.field!] ?? ""),
+        ) ?? true;
       }),
     [config.fields, form],
   );
