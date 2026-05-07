@@ -113,6 +113,7 @@ class LineModel extends Model<InferAttributes<LineModel>, InferCreationAttribute
   declare plantId: number;
   declare supervisor: string | null;
   declare capacity: number | null;
+  declare specifications: string | null;
   declare description: string | null;
   declare status: string;
   declare plant?: PlantModel;
@@ -138,6 +139,7 @@ class MachineModel extends Model<InferAttributes<MachineModel>, InferCreationAtt
   declare modelNumber: string | null;
   declare operator: string | null;
   declare capacity: number | null;
+  declare specifications: string | null;
   declare description: string | null;
   declare status: string;
   declare plant?: PlantModel;
@@ -290,6 +292,7 @@ export const initModels = (sequelizeInstance: Sequelize) => {
       plantId: { type: DataTypes.INTEGER.UNSIGNED, allowNull: false, field: 'plant_id' },
       supervisor: { type: DataTypes.STRING(150), allowNull: true },
       capacity: { type: DataTypes.INTEGER, allowNull: true },
+      specifications: { type: DataTypes.TEXT, allowNull: true },
       description: { type: DataTypes.TEXT, allowNull: true },
       status: { type: DataTypes.ENUM('Active', 'Inactive'), allowNull: false, defaultValue: 'Active' },
     },
@@ -320,6 +323,7 @@ export const initModels = (sequelizeInstance: Sequelize) => {
       modelNumber: { type: DataTypes.STRING(120), allowNull: true, field: 'model_number' },
       operator: { type: DataTypes.STRING(150), allowNull: true },
       capacity: { type: DataTypes.INTEGER, allowNull: true },
+      specifications: { type: DataTypes.TEXT, allowNull: true },
       description: { type: DataTypes.TEXT, allowNull: true },
       status: { type: DataTypes.ENUM('Active', 'Inactive'), allowNull: false, defaultValue: 'Active' },
     },

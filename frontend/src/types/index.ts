@@ -53,6 +53,7 @@ export interface FormField {
   type: 'text' | 'email' | 'password' | 'textarea' | 'select' | 'date' | 'time' | 'number' | 'asset';
   placeholder?: string;
   helperText?: string;
+  maxLength?: number;
   uploadEndpoint?: string;
   uploadAssetType?: 'logo' | 'favicon' | 'banner';
   buttonText?: string;

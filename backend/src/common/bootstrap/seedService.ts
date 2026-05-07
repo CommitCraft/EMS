@@ -1,10 +1,34 @@
 import bcrypt from 'bcryptjs';
+import { DataTypes } from 'sequelize';
+import { sequelize } from '../../config/database';
 import { CompanyProfile, Department, Permission, Role, RolePermission, User, Plant, Line, Shift, Machine } from '../../models';
 import { flattenPermissionCatalog } from '../constants/permissions';
 
 const defaultPermissions = flattenPermissionCatalog();
 
+const ensureSpecificationsColumns = async () => {
+  const queryInterface = sequelize.getQueryInterface();
+
+  const lineColumns = await queryInterface.describeTable('lines');
+  if (!Object.prototype.hasOwnProperty.call(lineColumns, 'specifications')) {
+    await queryInterface.addColumn('lines', 'specifications', {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    });
+  }
+
+  const machineColumns = await queryInterface.describeTable('machines');
+  if (!Object.prototype.hasOwnProperty.call(machineColumns, 'specifications')) {
+    await queryInterface.addColumn('machines', 'specifications', {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    });
+  }
+};
+
 export const seedDatabase = async () => {
+  await ensureSpecificationsColumns();
+
   const [adminRole] = await Role.findOrCreate({ where: { name: 'Admin' }, defaults: { name: 'Admin', description: 'System administrator' } });
   const [managerRole] = await Role.findOrCreate({ where: { name: 'Manager' }, defaults: { name: 'Manager', description: 'Department manager' } });
   const [employeeRole] = await Role.findOrCreate({ where: { name: 'Employee' }, defaults: { name: 'Employee', description: 'Standard employee access' } });
