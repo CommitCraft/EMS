@@ -94,6 +94,9 @@ export interface FormField {
   uploadAssetType?: string;
   placeholder?: string;
   maxLength?: number;
+  min?: number;
+  max?: number;
+  step?: number | string;
   previewWidth?: number;
   previewHeight?: number;
   defaultValue?: any;

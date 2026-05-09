@@ -224,6 +224,9 @@ export const FormField = ({ field, value, onChange, options, requiredOverride }:
             value={String(value ?? '')}
             placeholder={field.placeholder}
             required={isRequired}
+            min={field.min}
+            max={field.max}
+            step={field.step}
             onChange={(event) => onChange(field.name, event.target.value)}
           />
 
@@ -245,6 +248,9 @@ export const FormField = ({ field, value, onChange, options, requiredOverride }:
             placeholder={field.placeholder}
             required={isRequired}
             maxLength={field.maxLength}
+            min={field.min}
+            max={field.max}
+            step={field.step}
             onChange={(event) => onChange(field.name, event.target.value)}
           />
 

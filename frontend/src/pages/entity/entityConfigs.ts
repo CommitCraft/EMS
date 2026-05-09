@@ -170,7 +170,7 @@ export const supplierConfig: CrudConfig = {
     { name: 'country', label: 'Country', type: 'select', searchable: true, options: countryOptions, placeholder: 'Search and select country' },
     { name: 'contactPerson', label: 'Contact Person', type: 'text' },
     { name: 'paymentTerms', label: 'Payment Terms', type: 'text' },
-    { name: 'rating', label: 'Rating (1-5)', type: 'select', options: [1, 2, 3, 4, 5].map((value) => ({ label: String(value), value })), placeholder: 'Select rating' },
+    { name: 'rating', label: 'Rating (0.00-5.00)', type: 'number', min: 0, max: 5, step: 0.01, placeholder: 'Enter rating 0-5', helperText: 'Decimal values allowed (e.g., 4.5)' },
     { name: 'description', label: 'Description', type: 'textarea' },
     { name: 'status', label: 'Status', type: 'select', required: true, options: [{ label: 'Active', value: 'Active' }, { label: 'Inactive', value: 'Inactive' }] },
   ],

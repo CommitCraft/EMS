@@ -206,15 +206,28 @@ export const CrudPage = ({ config }: CrudPageProps) => {
     const payload = visibleFields.reduce<Record<string, unknown>>(
       (accumulator, field) => {
         const value = form[field.name];
+        const isEmpty = String(value ?? "").trim() === "";
+
+        // Skip optional fields on edit if they're empty
         if (
           editing &&
           field.optionalOnEdit &&
-          String(value ?? "").trim() === ""
+          isEmpty
         ) {
           return accumulator;
         }
-        accumulator[field.name] =
-          field.type === "number" ? Number(value) : value;
+
+        // Convert numeric fields to numbers
+        if (field.type === "number") {
+          // Skip empty numeric fields to allow database NULL values
+          if (isEmpty) {
+            return accumulator;
+          }
+          accumulator[field.name] = Number(value);
+        } else {
+          accumulator[field.name] = value;
+        }
+
         return accumulator;
       },
       {},
