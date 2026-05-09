@@ -90,7 +90,7 @@ export const Sidebar = ({
       </aside>
 
       <aside
-        className={`fixed left-0 top-0 z-50 flex h-screen w-[315px] flex-col bg-[#2f3440] px-3 py-3 transition-transform xl:hidden ${
+        className={`fixed left-0 top-0 z-50 flex h-screen w-[92vw] max-w-[360px] flex-col bg-[#2f3440] px-3 py-3 transition-transform duration-300 ease-out xl:hidden sm:w-[340px] ${
           mobileOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >

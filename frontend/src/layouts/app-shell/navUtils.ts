@@ -105,6 +105,28 @@ export const getActiveItem = (allItems: NavItem[], pathname: string): NavItem | 
   return parentItem || allItems[0];
 };
 
+export const getOpenMenuLabel = (allItems: NavItem[], pathname: string): string | null => {
+  if (!allItems.length) {
+    return null;
+  }
+
+  const currentPath = pathname === "/" ? "/dashboard" : pathname;
+
+  const parentItem = allItems.find((item) =>
+    item.children?.some((child) => isPathActive(currentPath, child.to)),
+  );
+
+  if (parentItem) {
+    return parentItem.label;
+  }
+
+  const directExpandableItem = allItems.find(
+    (item) => item.children?.length && isPathActive(currentPath, item.to),
+  );
+
+  return directExpandableItem?.label || null;
+};
+
 export const getBreadcrumbItems = (pathname: string) => {
   const currentPath = pathname === "/" ? "/dashboard" : pathname;
   const parts = currentPath.split("/").filter(Boolean);

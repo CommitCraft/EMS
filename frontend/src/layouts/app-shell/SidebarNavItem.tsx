@@ -27,6 +27,7 @@ export const SidebarNavItem = ({
 }: SidebarNavItemProps) => {
   const Icon = item.icon;
   const hasChildren = !!item.children?.length;
+  const submenuId = `sidebar-submenu-${item.label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
 
   const isParentActive = hasChildren
     ? item.children?.some((child) => isPathActive(pathname, child.to))
@@ -49,6 +50,8 @@ export const SidebarNavItem = ({
           onClick={() =>
             setOpenMenuLabel((current) => (current === item.label ? null : item.label))
           }
+          aria-expanded={isOpen}
+          aria-controls={submenuId}
           title={collapsed && !isMobile ? item.label : undefined}
         >
           <span className={`flex items-center ${collapsed && !isMobile ? "" : "gap-4"}`}>
@@ -76,8 +79,15 @@ export const SidebarNavItem = ({
           ) : null}
         </button>
 
-        {collapsed && !isMobile && isOpen ? (
-          <div className="absolute left-[calc(100%+12px)] top-0 z-50 w-64 rounded-xl border border-white/10 bg-[#2f3440] p-2 shadow-2xl">
+        {collapsed && !isMobile ? (
+          <div
+            aria-hidden={!isOpen}
+            className={`absolute left-[calc(100%+12px)] top-0 z-50 w-64 rounded-xl border border-white/10 bg-[#2f3440] p-2 shadow-2xl origin-left transition-all duration-200 ease-out motion-reduce:transition-none ${
+              isOpen
+                ? "pointer-events-auto translate-x-0 scale-100 opacity-100"
+                : "pointer-events-none -translate-x-1 scale-[0.98] opacity-0"
+            }`}
+          >
             <div className="mb-2 rounded-md bg-white px-3 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-[#4351b8]">
               {item.label}
             </div>
@@ -104,25 +114,77 @@ export const SidebarNavItem = ({
           </div>
         ) : null}
 
-        {!(collapsed && !isMobile) && isOpen ? (
-          <div className="mt-1 space-y-1 pl-[58px]">
-            {item.children?.map((child) => (
-              <NavLink
-                key={child.to}
-                to={child.to}
-                end={child.to === "/settings"}
-                className={({ isActive }) =>
-                  `block rounded-md px-3 py-2 text-[14px] font-medium transition ${
-                    isActive
-                      ? "bg-[#3f4bb0] text-white"
-                      : "text-[#cfd3dc] hover:bg-[#3a404d] hover:text-white"
-                  }`
-                }
-                onClick={() => setMobileOpen(false)}
-              >
-                {child.label}
-              </NavLink>
-            ))}
+        {isMobile ? (
+          <div
+            id={submenuId}
+            aria-hidden={!isOpen}
+            className={`relative z-20 ml-3 mt-2 overflow-hidden rounded-2xl border border-white/10 bg-[#252a34] shadow-2xl transition-all duration-220 ease-out motion-reduce:transition-none ${
+              isOpen
+                ? "max-h-[32rem] translate-y-0 opacity-100"
+                : "pointer-events-none max-h-0 -translate-y-1 opacity-0"
+            }`}
+          >
+            <div className="max-h-[32rem] overflow-y-auto p-3">
+              <div className="mb-3 rounded-xl bg-white/5 px-3 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-white/80">
+                {item.label}
+              </div>
+
+              <div className="space-y-2">
+                {item.children?.map((child) => (
+                  <NavLink
+                    key={child.to}
+                    to={child.to}
+                    end={child.to === "/settings"}
+                    className={({ isActive }) =>
+                      `block rounded-xl px-4 py-3 text-[14px] font-medium transition ${
+                        isActive
+                          ? "bg-[#4351b8] text-white shadow-sm"
+                          : "bg-white/5 text-[#d8dbe3] hover:bg-white/10 hover:text-white"
+                      }`
+                    }
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    {child.label}
+                  </NavLink>
+                ))}
+              </div>
+            </div>
+          </div>
+        ) : !(collapsed && !isMobile) ? (
+          <div
+            id={submenuId}
+            aria-hidden={!isOpen}
+            className={`relative z-10 mt-2 overflow-hidden rounded-2xl border border-white/10 bg-[#252a34] shadow-2xl transition-all duration-220 ease-out motion-reduce:transition-none ${
+              isOpen
+                ? "max-h-[28rem] translate-y-0 opacity-100"
+                : "pointer-events-none max-h-0 -translate-y-1 opacity-0"
+            }`}
+          >
+            <div className="max-h-[28rem] overflow-y-auto p-3">
+              <div className="mb-3 border-b border-white/10 px-1 pb-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/70">
+                {item.label}
+              </div>
+
+              <div className="space-y-2.5">
+              {item.children?.map((child) => (
+                <NavLink
+                  key={child.to}
+                  to={child.to}
+                  end={child.to === "/settings"}
+                  className={({ isActive }) =>
+                    `block rounded-xl px-4 py-3 text-[14px] font-medium transition ${
+                      isActive
+                        ? "bg-[#4351b8] text-white shadow-sm"
+                        : "bg-white/5 text-[#d8dbe3] hover:bg-white/10 hover:text-white"
+                    }`
+                  }
+                  onClick={() => setMobileOpen(false)}
+                >
+                  {child.label}
+                </NavLink>
+              ))}
+              </div>
+            </div>
           </div>
         ) : null}
       </div>

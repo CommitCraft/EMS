@@ -9,6 +9,7 @@ import {
   getActiveItem,
   getAllLinks,
   getBreadcrumbItems,
+  getOpenMenuLabel,
   shouldUseExactMatch,
 } from "./app-shell/navUtils";
 import { Sidebar } from "./app-shell/Sidebar";
@@ -41,10 +42,11 @@ export const AppLayout = () => {
   const ActiveIcon = activeItem?.icon;
 
   const breadcrumbItems = useMemo(() => getBreadcrumbItems(pathname), [pathname]);
+  const activeMenuLabel = useMemo(() => getOpenMenuLabel(navItems, pathname), [navItems, pathname]);
 
   useEffect(() => {
-    setOpenMenuLabel(activeItem?.children?.length ? activeItem.label : null);
-  }, [activeItem]);
+    setOpenMenuLabel(activeMenuLabel);
+  }, [activeMenuLabel]);
 
   const shouldUseExact = (path?: string) => shouldUseExactMatch(allLinks, path);
 

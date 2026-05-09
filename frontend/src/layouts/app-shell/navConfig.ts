@@ -1,9 +1,8 @@
 import {
   DashboardIcon,
   ErrorIcon,
-  ListIcon,
   OrganizationIcon,
-  TruckIcon,
+  
 
   SettingsIcon,
   ShieldIcon,
