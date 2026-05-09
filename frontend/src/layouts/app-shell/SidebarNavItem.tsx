@@ -38,10 +38,10 @@ export const SidebarNavItem = ({
       <div key={item.label} className="relative">
         <button
           type="button"
-          className={`group flex w-full items-center rounded-[8px] text-[16px] font-semibold tracking-wide transition ${
+          className={`group flex w-full items-center rounded-[8px] text-[15px] font-semibold tracking-wide transition border border-white/15 ${
             collapsed && !isMobile
-              ? "justify-center px-2 py-3"
-              : "justify-between px-6 py-3.5"
+              ? "justify-center px-2 py-1.5"
+              : "justify-between px-3 py-2"
           } ${
             isParentActive
               ? "bg-[#4351b8] text-white shadow-sm"
@@ -124,19 +124,19 @@ export const SidebarNavItem = ({
                 : "pointer-events-none max-h-0 -translate-y-1 opacity-0"
             }`}
           >
-            <div className="max-h-[32rem] overflow-y-auto p-3">
+            <div className="max-h-[32rem] overflow-y-auto p-1.5">
               {/* <div className="mb-3 rounded-xl bg-white/5 px-3 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-white/80">
                 {item.label}
               </div> */}
 
-              <div className="space-y-2">
+              <div className="space-y-1">
                 {item.children?.map((child) => (
                   <NavLink
                     key={child.to}
                     to={child.to}
                     end={child.to === "/settings"}
                     className={({ isActive }) =>
-                      `block rounded-xl px-4 py-3 text-[14px] font-medium transition ${
+                      `block rounded-lg px-2.5 py-1.5 text-[13px] font-medium transition ${
                         isActive
                           ? "bg-[#4351b8] text-white shadow-sm"
                           : "bg-white/5 text-[#d8dbe3] hover:bg-white/10 hover:text-white"
@@ -160,12 +160,12 @@ export const SidebarNavItem = ({
                 : "pointer-events-none max-h-0 -translate-y-1 opacity-0"
             }`}
           >
-            <div className="max-h-[28rem] overflow-y-auto p-3">
+            <div className="max-h-[28rem] overflow-y-auto p-1.5">
               {/* <div className="mb-3 border-b border-white/10 px-1 pb-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/70">
                 {item.label}
               </div> */}
 
-              <div className="space-y-2.5">
+              <div className="space-y-1">
               {item.children?.map((child) => (
                 <NavLink
                   key={child.to}
@@ -197,8 +197,8 @@ export const SidebarNavItem = ({
       to={item.to || "#"}
       end={shouldUseExactMatch(item.to)}
       className={({ isActive }) =>
-        `group relative flex items-center rounded-[8px] text-[16px] font-semibold tracking-wide transition ${
-          collapsed && !isMobile ? "justify-center px-2 py-3" : "justify-between px-6 py-3.5"
+        `group relative flex items-center rounded-[8px] text-[15px] font-semibold tracking-wide transition border border-white/15 ${
+          collapsed && !isMobile ? "justify-center px-2 py-1.5" : "justify-between px-3 py-2"
         } ${
           isActive
             ? "bg-[#4351b8] text-white shadow-sm"

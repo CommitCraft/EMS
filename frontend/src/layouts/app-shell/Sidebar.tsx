@@ -39,7 +39,7 @@ export const Sidebar = ({
           collapsed ? "xl:w-20" : "xl:w-[315px]"
         }`}
       >
-        <div className="sticky top-0 z-20 mb-3 flex items-center justify-between bg-[#2f3440] py-1">
+        <div className="sticky top-0 z-20 mb-2 flex items-center justify-between bg-[#2f3440] py-1">
           {!collapsed ? (
             <div
               className="flex min-h-[48px] items-center cursor-pointer transition hover:opacity-80"
@@ -73,14 +73,14 @@ export const Sidebar = ({
           </button>
         </div>
 
-        <nav className="flex-1 space-y-4 overflow-y-auto pr-1">
+        <nav className="flex-1 space-y-1.5 overflow-y-auto pr-1">
           {sections.map((section) => (
-            <div key={section.title} className="space-y-2">
-              <div className="px-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/70">
+            <div key={section.title} className="space-y-0.5 rounded-lg border border-white/10 p-2">
+              <div className="px-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/60 border-b border-white/10 pb-1.5">
                 {section.title}
               </div>
 
-              <div className="space-y-1">
+              <div className="space-y-0.5">
                 {section.items.map((item) => (
                   <SidebarNavItem
                     key={item.label}
@@ -104,7 +104,7 @@ export const Sidebar = ({
           mobileOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className="mb-3 flex min-h-[48px] items-center justify-between">
+        <div className="mb-2 flex min-h-[48px] items-center justify-between">
           <div
             className="flex items-center cursor-pointer transition hover:opacity-80"
             onClick={() => navigate("/dashboard")}
@@ -125,14 +125,14 @@ export const Sidebar = ({
           </button>
         </div>
 
-        <nav className="flex-1 space-y-4 overflow-y-auto pr-1">
+        <nav className="flex-1 space-y-1.5 overflow-y-auto pr-1">
           {sections.map((section) => (
-            <div key={`mobile-section-${section.title}`} className="space-y-2">
-              <div className="px-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/70">
+            <div key={`mobile-section-${section.title}`} className="space-y-0.5 rounded-lg border border-white/10 p-2">
+              <div className="px-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/60 border-b border-white/10 pb-1.5">
                 {section.title}
               </div>
 
-              <div className="space-y-1">
+              <div className="space-y-0.5">
                 {section.items.map((item) => (
                   <SidebarNavItem
                     key={`mobile-${item.label}`}
