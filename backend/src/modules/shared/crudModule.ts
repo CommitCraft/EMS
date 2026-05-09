@@ -67,6 +67,7 @@ const createCrudController = (options: CrudRouteOptions) => {
 	const create = async (req: AuthenticatedRequest, res: any) => {
 		const payload = options.transformCreate ? await options.transformCreate(req.body as Record<string, unknown>, req) : (req.body as Record<string, unknown>);
 		const item = await options.model.create(payload as Record<string, unknown>);
+		const createdItem = await options.model.findByPk(item.id, { include: options.include });
 		await logActivity({
 			userId: req.user?.id,
 			entity: options.entityName,
@@ -75,7 +76,7 @@ const createCrudController = (options: CrudRouteOptions) => {
 			description: `Created ${options.entityName}`,
 			meta: payload,
 		});
-		res.status(201).json({ success: true, data: item });
+		res.status(201).json({ success: true, data: createdItem });
 	};
 
 	const update = async (req: AuthenticatedRequest, res: any) => {
@@ -88,7 +89,7 @@ const createCrudController = (options: CrudRouteOptions) => {
 		if (!updated) {
 			throw new AppError(`${options.entityName} not found`, 404);
 		}
-		const item = await options.model.findByPk(id);
+		const item = await options.model.findByPk(id, { include: options.include });
 		await logActivity({
 			userId: req.user?.id,
 			entity: options.entityName,
