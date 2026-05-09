@@ -2,10 +2,10 @@ import { Dispatch, SetStateAction } from "react";
 import { useNavigate } from "react-router-dom";
 import { ChevronLeftIcon, ChevronRightIcon, CloseIcon } from "./icons";
 import { SidebarNavItem } from "./SidebarNavItem";
-import { NavItem } from "./types";
+import { NavSection } from "./types";
 
 type SidebarProps = {
-  navItems: NavItem[];
+  sections: NavSection[];
   pathname: string;
   collapsed: boolean;
   setCollapsed: Dispatch<SetStateAction<boolean>>;
@@ -19,7 +19,7 @@ type SidebarProps = {
 };
 
 export const Sidebar = ({
-  navItems,
+  sections,
   pathname,
   collapsed,
   setCollapsed,
@@ -73,18 +73,28 @@ export const Sidebar = ({
           </button>
         </div>
 
-        <nav className="flex-1 space-y-1 overflow-y-auto pr-1">
-          {navItems.map((item) => (
-            <SidebarNavItem
-              key={item.label}
-              item={item}
-              collapsed={collapsed}
-              pathname={pathname}
-              isOpen={openMenuLabel ? openMenuLabel === item.label : false}
-              setOpenMenuLabel={setOpenMenuLabel}
-              setMobileOpen={setMobileOpen}
-              shouldUseExactMatch={shouldUseExactMatch}
-            />
+        <nav className="flex-1 space-y-4 overflow-y-auto pr-1">
+          {sections.map((section) => (
+            <div key={section.title} className="space-y-2">
+              <div className="px-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/70">
+                {section.title}
+              </div>
+
+              <div className="space-y-1">
+                {section.items.map((item) => (
+                  <SidebarNavItem
+                    key={item.label}
+                    item={item}
+                    collapsed={collapsed}
+                    pathname={pathname}
+                    isOpen={openMenuLabel ? openMenuLabel === item.label : false}
+                    setOpenMenuLabel={setOpenMenuLabel}
+                    setMobileOpen={setMobileOpen}
+                    shouldUseExactMatch={shouldUseExactMatch}
+                  />
+                ))}
+              </div>
+            </div>
           ))}
         </nav>
       </aside>
@@ -115,19 +125,29 @@ export const Sidebar = ({
           </button>
         </div>
 
-        <nav className="flex-1 space-y-1 overflow-y-auto pr-1">
-          {navItems.map((item) => (
-            <SidebarNavItem
-              key={`mobile-${item.label}`}
-              item={item}
-              collapsed={false}
-              isMobile
-              pathname={pathname}
-              isOpen={openMenuLabel ? openMenuLabel === item.label : false}
-              setOpenMenuLabel={setOpenMenuLabel}
-              setMobileOpen={setMobileOpen}
-              shouldUseExactMatch={shouldUseExactMatch}
-            />
+        <nav className="flex-1 space-y-4 overflow-y-auto pr-1">
+          {sections.map((section) => (
+            <div key={`mobile-section-${section.title}`} className="space-y-2">
+              <div className="px-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/70">
+                {section.title}
+              </div>
+
+              <div className="space-y-1">
+                {section.items.map((item) => (
+                  <SidebarNavItem
+                    key={`mobile-${item.label}`}
+                    item={item}
+                    collapsed={false}
+                    isMobile
+                    pathname={pathname}
+                    isOpen={openMenuLabel ? openMenuLabel === item.label : false}
+                    setOpenMenuLabel={setOpenMenuLabel}
+                    setMobileOpen={setMobileOpen}
+                    shouldUseExactMatch={shouldUseExactMatch}
+                  />
+                ))}
+              </div>
+            </div>
           ))}
         </nav>
       </aside>

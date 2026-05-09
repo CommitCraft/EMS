@@ -88,9 +88,9 @@ export const SidebarNavItem = ({
                 : "pointer-events-none -translate-x-1 scale-[0.98] opacity-0"
             }`}
           >
-            <div className="mb-2 rounded-md bg-white px-3 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-[#4351b8]">
+            {/* <div className="mb-2 rounded-md bg-white px-3 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-[#4351b8]">
               {item.label}
-            </div>
+            </div> */}
 
             <div className="space-y-1">
               {item.children?.map((child) => (
@@ -125,9 +125,9 @@ export const SidebarNavItem = ({
             }`}
           >
             <div className="max-h-[32rem] overflow-y-auto p-3">
-              <div className="mb-3 rounded-xl bg-white/5 px-3 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-white/80">
+              {/* <div className="mb-3 rounded-xl bg-white/5 px-3 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-white/80">
                 {item.label}
-              </div>
+              </div> */}
 
               <div className="space-y-2">
                 {item.children?.map((child) => (
@@ -161,9 +161,9 @@ export const SidebarNavItem = ({
             }`}
           >
             <div className="max-h-[28rem] overflow-y-auto p-3">
-              <div className="mb-3 border-b border-white/10 px-1 pb-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/70">
+              {/* <div className="mb-3 border-b border-white/10 px-1 pb-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/70">
                 {item.label}
-              </div>
+              </div> */}
 
               <div className="space-y-2.5">
               {item.children?.map((child) => (

@@ -2,23 +2,26 @@ import {
   DashboardIcon,
   ErrorIcon,
   OrganizationIcon,
-  
-
   SettingsIcon,
   ShieldIcon,
-  
 } from "./icons";
 import { NavSection } from "./types";
 
 export const navSections: NavSection[] = [
   {
-    title: "Main",
+    title: "",
     items: [
-      { label: "Dashboard", to: "/dashboard", icon: DashboardIcon, requiredPermissions: ["VIEW_DASHBOARD"] },
+      {
+        label: "Dashboard",
+        to: "/dashboard",
+        icon: DashboardIcon,
+        requiredPermissions: ["VIEW_DASHBOARD"],
+      },
     ],
   },
+
   {
-    title: "Administration",
+    title: "Organization Management",
     items: [
       {
         label: "Organization",
@@ -33,6 +36,12 @@ export const navSections: NavSection[] = [
           { label: "Departments", to: "/organization/departments", requiredPermissions: ["VIEW_DEPARTMENTS"] },
         ],
       },
+    ],
+  },
+
+  {
+    title: "Access Management",
+    items: [
       {
         label: "Access Control",
         icon: ShieldIcon,
@@ -43,6 +52,12 @@ export const navSections: NavSection[] = [
           { label: "Role User", to: "/roles/users", requiredPermissions: ["VIEW_ROLE_USER"] },
         ],
       },
+    ],
+  },
+
+  {
+    title: "System Configuration",
+    items: [
       {
         label: "Settings",
         icon: SettingsIcon,
@@ -54,6 +69,12 @@ export const navSections: NavSection[] = [
           { label: "Company Profile", to: "/settings/company-profile", requiredPermissions: ["VIEW_COMPANY_PROFILE"] },
         ],
       },
+    ],
+  },
+
+  {
+    title: "System Monitoring",
+    items: [
       {
         label: "System Logs",
         icon: ErrorIcon,

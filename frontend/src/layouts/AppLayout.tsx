@@ -96,7 +96,7 @@ export const AppLayout = () => {
 
       <div className="relative flex min-h-screen">
         <Sidebar
-          navItems={navItems}
+          sections={allowedSections}
           pathname={pathname}
           collapsed={collapsed}
           setCollapsed={setCollapsed}
