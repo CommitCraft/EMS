@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Modal } from "../components/Modal";
 import { useAuth } from "../hooks/useAuth";
 import { useCompanyProfile } from "../hooks/useCompanyProfile";
 import { AppHeader } from "./app-shell/AppHeader";
@@ -13,6 +14,7 @@ import {
   shouldUseExactMatch,
 } from "./app-shell/navUtils";
 import { Sidebar } from "./app-shell/Sidebar";
+import { NavItem } from "./app-shell/types";
 
 export const AppLayout = () => {
   const { user, logout } = useAuth();
@@ -24,6 +26,7 @@ export const AppLayout = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const [openMenuLabel, setOpenMenuLabel] = useState<string | null>(null);
+  const [sidebarModalItem, setSidebarModalItem] = useState<NavItem | null>(null);
 
   const profileMenuRef = useRef<HTMLDivElement | null>(null);
 
@@ -69,6 +72,7 @@ export const AppLayout = () => {
       if (event.key === "Escape") {
         setProfileMenuOpen(false);
         setMobileOpen(false);
+        setSidebarModalItem(null);
       }
     };
 
@@ -104,6 +108,7 @@ export const AppLayout = () => {
           setMobileOpen={setMobileOpen}
           openMenuLabel={openMenuLabel}
           setOpenMenuLabel={setOpenMenuLabel}
+          onOpenItemModal={setSidebarModalItem}
           shouldUseExactMatch={shouldUseExact}
           logoUrl={profile?.logoUrl}
           faviconUrl={profile?.faviconUrl}
@@ -135,6 +140,36 @@ export const AppLayout = () => {
           </main>
         </div>
       </div>
+
+      <Modal
+        open={!!sidebarModalItem}
+        title={sidebarModalItem?.label || "Menu items"}
+        onClose={() => setSidebarModalItem(null)}
+      >
+        {sidebarModalItem?.children?.length ? (
+          <div className="space-y-1">
+            <div className="grid gap-1">
+              {sidebarModalItem.children.map((child) => (
+                <NavLink
+                  key={child.to}
+                  to={child.to}
+                  onClick={() => setSidebarModalItem(null)}
+                  className="rounded-lg px-2 py-2 text-left transition hover:bg-slate-100"
+                >
+                  <span className="flex items-center gap-3">
+                    <span className="grid h-5 w-5 place-items-center text-slate-700">
+                      <child.icon className="h-4 w-4" />
+                    </span>
+                    <span className="font-medium text-slate-900">{child.label}</span>
+                  </span>
+                </NavLink>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <p className="text-sm text-slate-600">No submenu items available.</p>
+        )}
+      </Modal>
     </div>
   );
 };

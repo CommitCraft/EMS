@@ -5,6 +5,7 @@ export type IconProps = {
 export type NavChild = {
   label: string;
   to: string;
+  icon: (props: IconProps) => JSX.Element;
   children?: NavChild[];
   requiredPermissions?: string[];
 };

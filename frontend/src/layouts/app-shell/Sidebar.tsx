@@ -13,6 +13,7 @@ type SidebarProps = {
   setMobileOpen: (value: boolean) => void;
   openMenuLabel: string | null;
   setOpenMenuLabel: Dispatch<SetStateAction<string | null>>;
+  onOpenItemModal: (item: import("./types").NavItem) => void;
   shouldUseExactMatch: (path?: string) => boolean;
   logoUrl?: string | null;
   faviconUrl?: string | null;
@@ -27,6 +28,7 @@ export const Sidebar = ({
   setMobileOpen,
   openMenuLabel,
   setOpenMenuLabel,
+  onOpenItemModal,
   shouldUseExactMatch,
   logoUrl,
   faviconUrl,
@@ -98,6 +100,7 @@ export const Sidebar = ({
                     isOpen={openMenuLabel ? openMenuLabel === item.label : false}
                     setOpenMenuLabel={setOpenMenuLabel}
                     setMobileOpen={setMobileOpen}
+                    onOpenItemModal={onOpenItemModal}
                     shouldUseExactMatch={shouldUseExactMatch}
                   />
                 ))}
@@ -151,6 +154,7 @@ export const Sidebar = ({
                     isOpen={openMenuLabel ? openMenuLabel === item.label : false}
                     setOpenMenuLabel={setOpenMenuLabel}
                     setMobileOpen={setMobileOpen}
+                    onOpenItemModal={onOpenItemModal}
                     shouldUseExactMatch={shouldUseExactMatch}
                   />
                 ))}

@@ -12,6 +12,7 @@ type SidebarNavItemProps = {
   isOpen: boolean;
   setOpenMenuLabel: Dispatch<SetStateAction<string | null>>;
   setMobileOpen: (value: boolean) => void;
+  onOpenItemModal: (item: NavItem) => void;
   shouldUseExactMatch: (path?: string) => boolean;
 };
 
@@ -23,6 +24,7 @@ export const SidebarNavItem = ({
   isOpen,
   setOpenMenuLabel,
   setMobileOpen,
+  onOpenItemModal,
   shouldUseExactMatch,
 }: SidebarNavItemProps) => {
   const Icon = item.icon;
@@ -107,7 +109,12 @@ export const SidebarNavItem = ({
                   }
                   onClick={() => setMobileOpen(false)}
                 >
-                  {child.label}
+                  <span className="flex items-center gap-3">
+                    <span className="grid h-5 w-5 place-items-center text-white/90">
+                      <child.icon className="h-4 w-4" />
+                    </span>
+                    <span>{child.label}</span>
+                  </span>
                 </NavLink>
               ))}
             </div>
@@ -144,7 +151,12 @@ export const SidebarNavItem = ({
                     }
                     onClick={() => setMobileOpen(false)}
                   >
-                    {child.label}
+                    <span className="flex items-center gap-3">
+                      <span className="grid h-5 w-5 place-items-center text-white/90">
+                        <child.icon className="h-4 w-4" />
+                      </span>
+                      <span>{child.label}</span>
+                    </span>
                   </NavLink>
                 ))}
               </div>
@@ -180,7 +192,12 @@ export const SidebarNavItem = ({
                   }
                   onClick={() => setMobileOpen(false)}
                 >
-                  {child.label}
+                  <span className="flex items-center gap-3">
+                    <span className="grid h-5 w-5 place-items-center text-white/90">
+                      <child.icon className="h-4 w-4" />
+                    </span>
+                    <span>{child.label}</span>
+                  </span>
                 </NavLink>
               ))}
               </div>
