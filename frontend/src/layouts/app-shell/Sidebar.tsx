@@ -32,6 +32,7 @@ export const Sidebar = ({
   faviconUrl,
 }: SidebarProps) => {
   const navigate = useNavigate();
+  const showDesktopSectionTitles = !collapsed;
   return (
     <>
       <aside
@@ -73,14 +74,21 @@ export const Sidebar = ({
           </button>
         </div>
 
-        <nav className="flex-1 space-y-1.5 overflow-y-auto pr-1">
+        <nav className={`flex-1 overflow-y-auto pr-1 ${collapsed ? "space-y-1" : "space-y-1.5"}`}>
           {sections.map((section) => (
-            <div key={section.title} className="space-y-0.5 rounded-lg border border-white/10 p-2">
-              <div className="px-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/60 border-b border-white/10 pb-1.5">
-                {section.title}
-              </div>
+            <div
+              key={section.title}
+              className={`rounded-lg border border-white/10 ${collapsed ? "p-1" : "space-y-0.5 p-2"}`}
+            >
+              {showDesktopSectionTitles ? (
+                <div className="border-b border-white/10 px-2 pb-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/60">
+                  {section.title}
+                </div>
+              ) : (
+                <span className="sr-only">{section.title}</span>
+              )}
 
-              <div className="space-y-0.5">
+              <div className={collapsed ? "space-y-1" : "space-y-0.5"}>
                 {section.items.map((item) => (
                   <SidebarNavItem
                     key={item.label}
@@ -128,7 +136,7 @@ export const Sidebar = ({
         <nav className="flex-1 space-y-1.5 overflow-y-auto pr-1">
           {sections.map((section) => (
             <div key={`mobile-section-${section.title}`} className="space-y-0.5 rounded-lg border border-white/10 p-2">
-              <div className="px-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/60 border-b border-white/10 pb-1.5">
+              <div className="border-b border-white/10 px-2 pb-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/60">
                 {section.title}
               </div>
 
