@@ -57,7 +57,7 @@ const countryOptions = (() => {
   }
 })();
 
-export const userConfig: CrudConfig & { selectSources: Record<string, { endpoint: string; labelKey: string; valueKey: string }> } = {
+export const userConfig: CrudConfig & { selectSources: Record<string, { endpoint: string; labelKey: string; valueKey: string; dependsOn?: string; filterKey?: string }> } = {
   title: 'Users',
   endpoint: '/users',
   description: 'Manage operator, approver, auditor, and admin access across the QMS platform.',
@@ -476,7 +476,7 @@ export const shiftsConfig: CrudConfig = {
   ],
 };
 
-export const machinesConfig: CrudConfig & { selectSources: Record<string, { endpoint: string; labelKey: string; valueKey: string }> } = {
+export const machinesConfig: CrudConfig & { selectSources: Record<string, { endpoint: string; labelKey: string; valueKey: string; dependsOn?: string; filterKey?: string }> } = {
   title: 'Machines',
   endpoint: '/organization/machines',
   description: 'Manage production machines across plants and lines.',
@@ -484,32 +484,144 @@ export const machinesConfig: CrudConfig & { selectSources: Record<string, { endp
   columns: [
     { key: 'name', label: 'Machine Name' },
     { key: 'code', label: 'Code' },
+    { key: 'machineType', label: 'Type', render: (row) => String((row.machineType as { name?: string } | undefined)?.name || '-') },
     { key: 'plant', label: 'Plant', render: (row) => String((row.plant as { name?: string } | undefined)?.name || '-') },
     { key: 'line', label: 'Line', render: (row) => String((row.line as { name?: string } | undefined)?.name || '-') },
-    { key: 'specifications', label: 'Specifications' },
+    { key: 'machineSpec', label: 'Standard Spec', render: (row) => String((row.machineSpec as { name?: string } | undefined)?.name || '-') },
     { key: 'status', label: 'Status' },
   ],
   fields: [
     { name: 'name', label: 'Machine Name', type: 'text', required: true },
     { name: 'code', label: 'Machine Code', type: 'text', required: true },
+    { name: 'machineTypeId', label: 'Machine Type', type: 'select', required: true },
     { name: 'plantId', label: 'Plant', type: 'select', required: true },
     { name: 'lineId', label: 'Line', type: 'select', required: true },
     { name: 'serialNumber', label: 'Serial Number', type: 'text' },
     { name: 'modelNumber', label: 'Model Number', type: 'text' },
     { name: 'operator', label: 'Operator', type: 'text' },
     { name: 'capacity', label: 'Capacity', type: 'number' },
+    { name: 'machineSpecId', label: 'Standard Specification', type: 'select' },
     {
       name: 'specifications',
-      label: 'Machine Specifications',
+      label: 'Custom Specifications / Notes',
       type: 'textarea',
       maxLength: 2000,
-      helperText: 'Max 2000 characters. Include model capabilities, power/load limits, calibration standards, and safety notes.',
+      helperText: 'Add any custom override specifications not covered by the standard spec above.',
     },
     { name: 'description', label: 'Description', type: 'textarea' },
     { name: 'status', label: 'Status', type: 'select', required: true, options: [{ label: 'Active', value: 'Active' }, { label: 'Inactive', value: 'Inactive' }] },
   ],
   selectSources: {
     plantId: { endpoint: '/organization/plants?limit=100', labelKey: 'name', valueKey: 'id' },
-    lineId: { endpoint: '/organization/lines?limit=100', labelKey: 'name', valueKey: 'id' },
+    lineId: { endpoint: '/organization/lines?limit=100', labelKey: 'name', valueKey: 'id', dependsOn: 'plantId', filterKey: 'plantId' },
+    machineTypeId: { endpoint: '/organization/machine-types?limit=100', labelKey: 'name', valueKey: 'id' },
+    machineSpecId: { endpoint: '/organization/machine-specifications?limit=100', labelKey: 'name', valueKey: 'id' },
   },
+};
+
+export const machineTypesConfig: CrudConfig = {
+  title: 'Machine Types',
+  endpoint: '/organization/machine-types',
+  description: 'Manage machine types and categories.',
+  searchPlaceholder: 'Search machine types',
+
+  columns: [
+    { key: 'name', label: 'Type Name' },
+    { key: 'code', label: 'Code' },
+    { key: 'category', label: 'Category' },
+    { key: 'status', label: 'Status' },
+  ],
+
+  fields: [
+    {
+      name: 'name',
+      label: 'Type Name',
+      type: 'text',
+      required: true,
+    },
+
+    {
+      name: 'code',
+      label: 'Type Code',
+      type: 'text',
+      required: true,
+    },
+
+    {
+      name: 'category',
+      label: 'Category',
+      type: 'select',
+      required: true,
+      options: [
+        { label: 'Production', value: 'Production' },
+        { label: 'Utility', value: 'Utility' },
+        { label: 'Testing', value: 'Testing' },
+        { label: 'Packaging', value: 'Packaging' },
+      ],
+    },
+
+    {
+      name: 'description',
+      label: 'Description',
+      type: 'textarea',
+    },
+
+    {
+      name: 'status',
+      label: 'Status',
+      type: 'select',
+      required: true,
+      options: [
+        { label: 'Active', value: 'Active' },
+        { label: 'Inactive', value: 'Inactive' },
+      ],
+    },
+  ],
+};
+
+export const machineSpecificationsConfig: CrudConfig = {
+  title: 'Machine Specifications',
+  endpoint: '/organization/machine-specifications',
+  description: 'Manage standard technical parameters and specifications for machines.',
+  searchPlaceholder: 'Search specifications by name or code',
+
+  columns: [
+    { key: 'name', label: 'Name' },
+    { key: 'code', label: 'Code' },
+    { key: 'type', label: 'Type' },
+    { key: 'uom', label: 'UOM', render: (row) => String(row.uom || '-') },
+    { key: 'status', label: 'Status' },
+  ],
+
+  fields: [
+    { name: 'name', label: 'Specification Name', type: 'text', required: true },
+    { name: 'code', label: 'Code', type: 'text', required: true },
+    {
+      name: 'type',
+      label: 'Type',
+      type: 'select',
+      required: true,
+      options: [
+        { label: 'Electrical', value: 'Electrical' },
+        { label: 'Mechanical', value: 'Mechanical' },
+        { label: 'Operational', value: 'Operational' },
+        { label: 'Environmental', value: 'Environmental' },
+        { label: 'Other', value: 'Other' },
+      ],
+    },
+    { 
+      name: 'uom', 
+      label: 'Unit of Measure (UOM)', 
+      type: 'text', 
+      helperText: 'e.g., kW, mm, rpm, °C (Leave blank if not applicable)' 
+    },
+    { name: 'description', label: 'Description', type: 'textarea' },
+    {
+      name: 'status',
+      label: 'Status',
+      type: 'select',
+      required: true,
+      options: [{ label: 'Active', value: 'Active' }, { label: 'Inactive', value: 'Inactive' }],
+    },
+  ],
 };

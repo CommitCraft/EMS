@@ -143,6 +143,19 @@ const DashboardPage = () => {
               tone="amber"
             />
           </button>
+
+          <button
+            type="button"
+            onClick={() => navigate("/organization/machine-types")}
+            className="cursor-pointer transition hover:opacity-80"
+          >
+            <StatCard
+              title="Machine Types"
+              value={summary?.machineTypes ?? 0}
+              tone="rose"
+            />
+          </button> 
+
           <button
             type="button"
             onClick={() => navigate("/organization/machines")}

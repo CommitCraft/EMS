@@ -62,6 +62,11 @@ export const RepeatIcon = ({ className = iconClass }: IconProps) => (
   </svg>
 );
 
+export const Cpu = ({ className = iconClass }: IconProps) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
+    <path d="M9 2h6v2H9V2Zm4 16h2v2h-2v-2ZM5 10h2v4H5v-4Zm12 0h2v4h-2v-4ZM3 5h2v2H3V5Zm16 0h2v2h-2V5ZM3 17h2v2H3v-2Zm16 0h2v2h-2v-2ZM7 4h10v16H7V4Z" />
+  </svg>
+);
 export const MergeIcon = ({ className = iconClass }: IconProps) => (
   <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
     <path d="M7 3h2v4.6c0 1.3.8 2.5 2 3l2 .9c2 .9 3.2 2.9 3.2 5V21h-2v-4.5c0-1.3-.8-2.5-2-3l-2-.9A5.4 5.4 0 0 1 7 7.6V3Zm8 0 4 4-4 4V8h-3V6h3V3ZM9 16v-3H7v3H4l4 4 4-4H9Z" />

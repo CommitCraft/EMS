@@ -135,16 +135,20 @@ class MachineModel extends Model<InferAttributes<MachineModel>, InferCreationAtt
   declare name: string;
   declare code: string;
   declare plantId: number;
+  declare machineTypeId: number | null;
   declare lineId: number;
   declare serialNumber: string | null;
   declare modelNumber: string | null;
   declare operator: string | null;
   declare capacity: number | null;
+  declare machineSpecId: number | null;
   declare specifications: string | null;
   declare description: string | null;
   declare status: string;
   declare plant?: PlantModel;
   declare line?: LineModel;
+  declare machineType?: MachineTypeModel;
+  declare machineSpec?: MachineSpecificationModel;
 }
 
 class SupplierModel extends Model<InferAttributes<SupplierModel>, InferCreationAttributes<SupplierModel>> {
@@ -161,6 +165,29 @@ class SupplierModel extends Model<InferAttributes<SupplierModel>, InferCreationA
   declare rating: number | null;
   declare description: string | null;
   declare status: string;
+}
+
+class MachineTypeModel extends Model<InferAttributes<MachineTypeModel>, InferCreationAttributes<MachineTypeModel>> {
+  declare id: CreationOptional<number>;
+  declare name: string;
+  declare code: string;
+  declare category: string;
+  declare description: string | null;
+  declare status: string;
+  declare createdAt: CreationOptional<Date>;
+  declare updatedAt: CreationOptional<Date>;
+}
+
+class MachineSpecificationModel extends Model<InferAttributes<MachineSpecificationModel>, InferCreationAttributes<MachineSpecificationModel>> {
+  declare id: CreationOptional<number>;
+  declare name: string;
+  declare code: string;
+  declare type: string;
+  declare uom: string | null;
+  declare description: string | null;
+  declare status: string;
+  declare createdAt: CreationOptional<Date>;
+  declare updatedAt: CreationOptional<Date>;
 }
 
 export const initModels = (sequelizeInstance: Sequelize) => {
@@ -336,11 +363,13 @@ export const initModels = (sequelizeInstance: Sequelize) => {
       name: { type: DataTypes.STRING(150), allowNull: false },
       code: { type: DataTypes.STRING(60), allowNull: false, unique: true },
       plantId: { type: DataTypes.INTEGER.UNSIGNED, allowNull: false, field: 'plant_id' },
+      machineTypeId: { type: DataTypes.INTEGER.UNSIGNED, allowNull: true, field: 'machine_type_id' },
       lineId: { type: DataTypes.INTEGER.UNSIGNED, allowNull: false, field: 'line_id' },
       serialNumber: { type: DataTypes.STRING(120), allowNull: true, field: 'serial_number' },
       modelNumber: { type: DataTypes.STRING(120), allowNull: true, field: 'model_number' },
       operator: { type: DataTypes.STRING(150), allowNull: true },
       capacity: { type: DataTypes.INTEGER, allowNull: true },
+      machineSpecId: { type: DataTypes.INTEGER.UNSIGNED, allowNull: true, field: 'machine_spec_id' },
       specifications: { type: DataTypes.TEXT, allowNull: true },
       description: { type: DataTypes.TEXT, allowNull: true },
       status: { type: DataTypes.ENUM('Active', 'Inactive'), allowNull: false, defaultValue: 'Active' },
@@ -367,6 +396,31 @@ export const initModels = (sequelizeInstance: Sequelize) => {
     { sequelize: sequelizeInstance, tableName: 'suppliers' },
   );
 
+  MachineTypeModel.init(
+    {
+      id: { type: DataTypes.INTEGER.UNSIGNED, autoIncrement: true, primaryKey: true },
+      name: { type: DataTypes.STRING(150), allowNull: false, unique: true },
+      code: { type: DataTypes.STRING(50), allowNull: false, unique: true },
+      category: { type: DataTypes.ENUM('Production', 'Utility', 'Testing', 'Packaging'), allowNull: false },
+      description: { type: DataTypes.TEXT, allowNull: true },
+      status: { type: DataTypes.ENUM('Active', 'Inactive'), allowNull: false, defaultValue: 'Active' },
+    },
+    { sequelize: sequelizeInstance, tableName: 'machine_types', timestamps: true, underscored: true },
+  );
+
+  MachineSpecificationModel.init(
+    {
+      id: { type: DataTypes.INTEGER.UNSIGNED, autoIncrement: true, primaryKey: true },
+      name: { type: DataTypes.STRING(150), allowNull: false, unique: true },
+      code: { type: DataTypes.STRING(50), allowNull: false, unique: true },
+      type: { type: DataTypes.ENUM('Electrical', 'Mechanical', 'Operational', 'Environmental', 'Other'), allowNull: false },
+      uom: { type: DataTypes.STRING(50), allowNull: true },
+      description: { type: DataTypes.TEXT, allowNull: true },
+      status: { type: DataTypes.ENUM('Active', 'Inactive'), allowNull: false, defaultValue: 'Active' },
+    },
+    { sequelize: sequelizeInstance, tableName: 'machine_specifications', timestamps: true, underscored: true },
+  );
+
   RoleModel.hasMany(UserModel, { foreignKey: 'roleId', as: 'users' });
   UserModel.belongsTo(RoleModel, { foreignKey: 'roleId', as: 'role' });
   DepartmentModel.hasMany(UserModel, { foreignKey: 'departmentId', as: 'users' });
@@ -377,6 +431,10 @@ export const initModels = (sequelizeInstance: Sequelize) => {
   LineModel.hasMany(MachineModel, { foreignKey: 'lineId', as: 'machines' });
   MachineModel.belongsTo(PlantModel, { foreignKey: 'plantId', as: 'plant' });
   MachineModel.belongsTo(LineModel, { foreignKey: 'lineId', as: 'line' });
+  MachineTypeModel.hasMany(MachineModel, { foreignKey: 'machineTypeId', as: 'machines' });
+  MachineModel.belongsTo(MachineTypeModel, { foreignKey: 'machineTypeId', as: 'machineType' });
+  MachineSpecificationModel.hasMany(MachineModel, { foreignKey: 'machineSpecId', as: 'machines' });
+  MachineModel.belongsTo(MachineSpecificationModel, { foreignKey: 'machineSpecId', as: 'machineSpec' });
   RoleModel.belongsToMany(PermissionModel, {
     through: RolePermissionModel,
     foreignKey: 'roleId',
@@ -405,6 +463,8 @@ export const initModels = (sequelizeInstance: Sequelize) => {
     Shift: ShiftModel,
     Machine: MachineModel,
     Supplier: SupplierModel,
+    MachineType: MachineTypeModel,
+    MachineSpecification: MachineSpecificationModel,
   };
 };
 
@@ -425,4 +485,6 @@ export const {
   Shift,
   Machine,
   Supplier,
+  MachineType,
+  MachineSpecification,
 } = models;

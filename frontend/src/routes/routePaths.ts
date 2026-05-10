@@ -18,6 +18,8 @@ export const ROUTE_PATHS = {
   plants: '/organization/plants',
   lines: '/organization/lines',
   shifts: '/organization/shifts',
+  machineTypes: '/organization/machine-types',
+  machineSpecifications: '/organization/machine-specifications',
   machines: '/organization/machines',
 
   reports: '/reports',

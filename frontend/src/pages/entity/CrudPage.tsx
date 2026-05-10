@@ -116,13 +116,13 @@ export const CrudPage = ({ config }: CrudPageProps) => {
   const loadOptions = async () => {
     const sources: Record<
       string,
-      { endpoint: string; labelKey: string; valueKey: string }
+      { endpoint: string; labelKey: string; valueKey: string; dependsOn?: string; filterKey?: string }
     > =
       (
         config as CrudConfig & {
           selectSources?: Record<
             string,
-            { endpoint: string; labelKey: string; valueKey: string }
+            { endpoint: string; labelKey: string; valueKey: string; dependsOn?: string; filterKey?: string }
           >;
         }
       ).selectSources || {};
@@ -137,6 +137,7 @@ export const CrudPage = ({ config }: CrudPageProps) => {
           data.map((item) => ({
             label: String(item[source.labelKey] ?? ""),
             value: item[source.valueKey] as string | number,
+            raw: item,
           })),
         ] as const;
       }),
@@ -174,7 +175,19 @@ export const CrudPage = ({ config }: CrudPageProps) => {
   };
 
   const handleChange = (name: string, value: string) => {
-    setForm((current) => ({ ...current, [name]: value }));
+    setForm((current) => {
+      const nextForm = { ...current, [name]: value };
+      
+      // If the changed field acts as a parent for another field, clear the child field
+      const sources = (config as any).selectSources || {};
+      for (const [childField, source] of Object.entries(sources)) {
+        if ((source as any).dependsOn === name) {
+          nextForm[childField] = "";
+        }
+      }
+      
+      return nextForm;
+    });
   };
 
   const getCompanyProfilePersistedForm = () => {
@@ -579,22 +592,39 @@ export const CrudPage = ({ config }: CrudPageProps) => {
   }
 >
   <div className="grid gap-4 md:grid-cols-2">
-    {visibleFields.map((field) => (
-      <FormField
-        key={field.name}
-        field={field}
-        value={form[field.name] || ''}
-        onChange={handleChange}
-        options={optionMap[field.name]}
-        requiredOverride={
-          editing
-            ? field.optionalOnEdit
-              ? false
-              : field.required
-            : field.required
+    {visibleFields.map((field) => {
+      let currentOptions = optionMap[field.name];
+      
+      // Apply cascading logic if this field depends on another field
+      const sourceConfig = (config as any).selectSources?.[field.name];
+      if (sourceConfig?.dependsOn && currentOptions) {
+        const dependentValue = form[sourceConfig.dependsOn];
+        if (dependentValue) {
+          currentOptions = currentOptions.filter((opt: any) => 
+            String(opt.raw?.[sourceConfig.filterKey || sourceConfig.dependsOn]) === String(dependentValue)
+          );
+        } else {
+          currentOptions = []; // Hide options if parent is not selected
         }
-      />
-    ))}
+      }
+
+      return (
+        <FormField
+          key={field.name}
+          field={field}
+          value={form[field.name] || ''}
+          onChange={handleChange}
+          options={currentOptions}
+          requiredOverride={
+            editing
+              ? field.optionalOnEdit
+                ? false
+                : field.required
+              : field.required
+          }
+        />
+      );
+    })}
   </div>
 </Modal>
     </div>

@@ -1,4 +1,4 @@
-import { Line, Machine, Plant } from '../../../models';
+import { Line, Machine, Plant, MachineType, MachineSpecification } from '../../../models';
 
 export const machinesCrudConfig = {
   path: '/machines',
@@ -16,6 +16,16 @@ export const machinesCrudConfig = {
       model: Line,
       as: 'line',
       attributes: ['id', 'name', 'code'],
+    },
+    {
+      model: MachineType,
+      as: 'machineType',
+      attributes: ['id', 'name', 'code', 'category'],
+    },
+    {
+      model: MachineSpecification,
+      as: 'machineSpec',
+      attributes: ['id', 'name', 'code', 'type'],
     },
   ],
 };
