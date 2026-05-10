@@ -20,13 +20,13 @@ const router = Router();
 
 router.use(authenticate);
 
-router.get("/", requirePermission("machine_specification_types", "view"), getMachineSpecTypes);
+router.get("/", requirePermission("VIEW_MACHINE_SPECIFICATION_TYPES"), getMachineSpecTypes);
 
-router.get("/:id", requirePermission("machine_specification_types", "view"), getMachineSpecTypeById);
+router.get("/:id", requirePermission("VIEW_MACHINE_SPECIFICATION_TYPES"), getMachineSpecTypeById);
 
 router.post(
   "/",
-  requirePermission("machine_specification_types", "create"),
+  requirePermission("CREATE_MACHINE_SPECIFICATION_TYPES"),
   createMachineSpecTypeValidators,
   validateRequest,
   createMachineSpecType,
@@ -34,12 +34,12 @@ router.post(
 
 router.put(
   "/:id",
-  requirePermission("machine_specification_types", "update"),
+  requirePermission("UPDATE_MACHINE_SPECIFICATION_TYPES"),
   updateMachineSpecTypeValidators,
   validateRequest,
   updateMachineSpecType,
 );
 
-router.delete("/:id", requirePermission("machine_specification_types", "delete"), deleteMachineSpecType);
+router.delete("/:id", requirePermission("DELETE_MACHINE_SPECIFICATION_TYPES"), deleteMachineSpecType);
 
 export default router;

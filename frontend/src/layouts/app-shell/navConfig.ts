@@ -81,24 +81,13 @@ export const navSections: NavSection[] = [
             icon: ListIcon,
             requiredPermissions: ["VIEW_MACHINE_CATEGORIES"],
           },
-          {
-            label: "Machine Types",
-            to: "/organization/machine-types",
+           {
+            label: "Machine Types & Specs",
+            to: "/organization/machine-types-specs",
             icon: Cpu,
-            requiredPermissions: ["VIEW_MACHINE_TYPES"],
+            requiredPermissions: ["VIEW_MACHINE_TYPES", "VIEW_MACHINE_SPECIFICATIONS"],
           },
-          {
-            label: "Spec Types",
-            to: "/organization/machine-specification-types",
-            icon: ListIcon,
-            requiredPermissions: ["VIEW_MACHINE_SPECIFICATION_TYPES"],
-          },
-          {
-            label: "Machine Specs",
-            to: "/organization/machine-specifications",
-            icon: ClipboardIcon,
-            requiredPermissions: ["VIEW_MACHINE_SPECIFICATIONS"],
-          },
+                 
           {
             label: "All Machines",
             to: "/organization/machines",

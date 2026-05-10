@@ -20,6 +20,12 @@ const commonCrud = (baseCode: string): PermissionActionSeed[] => [
   { label: 'Edit', code: `EDIT_${baseCode}` },
   { label: 'Delete', code: `DELETE_${baseCode}` },
 ];
+const machineCrud = (baseCode: string): PermissionActionSeed[] => [
+  { label: 'View', code: `VIEW_${baseCode}` },
+  { label: 'Create', code: `CREATE_${baseCode}` },
+  { label: 'Update', code: `UPDATE_${baseCode}` },
+  { label: 'Delete', code: `DELETE_${baseCode}` },
+];
 const manageActions = (baseCode: string): PermissionActionSeed[] => [
   { label: 'View', code: `VIEW_${baseCode}` },
   { label: 'Manage', code: `MANAGE_${baseCode}` },
@@ -39,6 +45,10 @@ export const PERMISSION_CATALOG: PermissionModuleSeed[] = [
       { label: 'Machines', actions: commonCrud('MACHINES') },
       { label: 'Suppliers', actions: commonCrud('SUPPLIERS') },
       { label: 'Departments', actions: commonCrud('DEPARTMENTS') },
+      { label: 'Machine Categories', actions: machineCrud('MACHINE_CATEGORIES') },
+      { label: 'Machine Types', actions: machineCrud('MACHINE_TYPES') },
+      { label: 'Machine Specification Types', actions: machineCrud('MACHINE_SPECIFICATION_TYPES') },
+      { label: 'Machine Specifications', actions: machineCrud('MACHINE_SPECIFICATIONS') },
     ],
   },
   {

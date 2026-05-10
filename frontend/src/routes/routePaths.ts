@@ -20,6 +20,7 @@ export const ROUTE_PATHS = {
   shifts: '/organization/shifts',
   machineCategories: '/organization/machine-categories',
   machineTypes: '/organization/machine-types',
+  machineTypesSpecs: '/organization/machine-types-specs',
   machineSpecificationTypes: '/organization/machine-specification-types',
   machineSpecifications: '/organization/machine-specifications',
   machines: '/organization/machines',

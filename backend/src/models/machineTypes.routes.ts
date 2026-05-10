@@ -20,17 +20,17 @@ const router = Router();
 
 router.use(authenticate); // Ensure all endpoints are protected
 
-router.get("/", requirePermission("machine_types", "view"), getMachineTypes);
+router.get("/", requirePermission("VIEW_MACHINE_TYPES"), getMachineTypes);
 
 router.get(
   "/:id",
-  requirePermission("machine_types", "view"),
+  requirePermission("VIEW_MACHINE_TYPES"),
   getMachineTypeById,
 );
 
 router.post(
   "/",
-  requirePermission("machine_types", "create"),
+  requirePermission("CREATE_MACHINE_TYPES"),
   createMachineTypeValidators,
   validateRequest,
   createMachineType,
@@ -38,7 +38,7 @@ router.post(
 
 router.put(
   "/:id",
-  requirePermission("machine_types", "update"),
+  requirePermission("UPDATE_MACHINE_TYPES"),
   updateMachineTypeValidators,
   validateRequest,
   updateMachineType,
@@ -46,7 +46,7 @@ router.put(
 
 router.delete(
   "/:id",
-  requirePermission("machine_types", "delete"),
+  requirePermission("DELETE_MACHINE_TYPES"),
   deleteMachineType,
 );
 

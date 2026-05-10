@@ -23,6 +23,7 @@ const ShiftsPage = lazy(() => import('../pages/organization/shifts'));
 const MachinesPage = lazy(() => import('../pages/organization/machines'));
 const MachineCategoriesPage = lazy(() => import('../pages/organization/MachineCategoriesPage'));
 const MachineTypesPage = lazy(() => import('../pages/organization/MachineTypesPage'));
+const MachineTypesSpecsPage = lazy(() => import('../pages/organization/MachineTypesSpecsPage'));
 const MachineSpecificationTypesPage = lazy(() => import('../pages/organization/MachineSpecificationTypesPage'));
 const MachineSpecificationsPage = lazy(() => import('../pages/organization/MachineSpecificationsPage'));
 const PageNotFound = lazy(() => import('../pages/NotFoundPage'));
@@ -51,6 +52,7 @@ export {
   MachinesPage,
   MachineCategoriesPage,
   MachineTypesPage,
+  MachineTypesSpecsPage,
   MachineSpecificationTypesPage,
   MachineSpecificationsPage,
   PageNotFound,

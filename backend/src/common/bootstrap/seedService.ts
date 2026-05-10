@@ -54,7 +54,26 @@ export const seedDatabase = async () => {
     await RolePermission.findOrCreate({ where: mapping, defaults: mapping });
   }
 
-  const limitedPermissionNames = ['dashboard.read', 'reports.read'];
+  const limitedPermissionNames = [
+    'dashboard.read', 
+    'reports.read',
+    'VIEW_MACHINE_CATEGORIES',
+    'CREATE_MACHINE_CATEGORIES',
+    'UPDATE_MACHINE_CATEGORIES',
+    'DELETE_MACHINE_CATEGORIES',
+    'VIEW_MACHINE_TYPES',
+    'CREATE_MACHINE_TYPES',
+    'UPDATE_MACHINE_TYPES',
+    'DELETE_MACHINE_TYPES',
+    'VIEW_MACHINE_SPECIFICATION_TYPES',
+    'CREATE_MACHINE_SPECIFICATION_TYPES',
+    'UPDATE_MACHINE_SPECIFICATION_TYPES',
+    'DELETE_MACHINE_SPECIFICATION_TYPES',
+    'VIEW_MACHINE_SPECIFICATIONS',
+    'CREATE_MACHINE_SPECIFICATIONS',
+    'UPDATE_MACHINE_SPECIFICATIONS',
+    'DELETE_MACHINE_SPECIFICATIONS',
+  ];
   const limitedPermissions = permissions.filter((permission) => limitedPermissionNames.includes(permission.name));
   for (const permission of limitedPermissions) {
     await RolePermission.findOrCreate({ where: { roleId: managerRole.id, permissionId: permission.id }, defaults: { roleId: managerRole.id, permissionId: permission.id } });

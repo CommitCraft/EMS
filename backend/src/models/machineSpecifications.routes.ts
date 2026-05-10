@@ -15,19 +15,19 @@ router.use(authenticate);
 
 router.get(
   '/',
-  requirePermission('machine_specifications', 'view'),
+  requirePermission('VIEW_MACHINE_SPECIFICATIONS'),
   getMachineSpecs
 );
 
 router.get(
   '/:id',
-  requirePermission('machine_specifications', 'view'),
+  requirePermission('VIEW_MACHINE_SPECIFICATIONS'),
   getMachineSpecById
 );
 
 router.post(
   '/',
-  requirePermission('machine_specifications', 'create'),
+  requirePermission('CREATE_MACHINE_SPECIFICATIONS'),
   createMachineSpecValidators,
   validateRequest,
   createMachineSpec
@@ -35,7 +35,7 @@ router.post(
 
 router.put(
   '/:id',
-  requirePermission('machine_specifications', 'update'),
+  requirePermission('UPDATE_MACHINE_SPECIFICATIONS'),
   updateMachineSpecValidators,
   validateRequest,
   updateMachineSpec
@@ -43,7 +43,7 @@ router.put(
 
 router.delete(
   '/:id',
-  requirePermission('machine_specifications', 'delete'),
+  requirePermission('DELETE_MACHINE_SPECIFICATIONS'),
   deleteMachineSpec
 );
 

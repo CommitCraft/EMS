@@ -6,6 +6,7 @@ import {
   MachinesPage,
   MachineCategoriesPage,
   MachineTypesPage,
+  MachineTypesSpecsPage,
   MachineSpecificationTypesPage,
   MachineSpecificationsPage,
   SuppliersPage,
@@ -33,6 +34,10 @@ export const organizationRouteGroups: PermissionRouteGroup[] = [
   {
     requiredPermissions: ['VIEW_MACHINE_TYPES'],
     routes: [{ path: ROUTE_PATHS.machineTypes, element: <MachineTypesPage /> }],
+  },
+  {
+    requiredPermissions: ['VIEW_MACHINE_TYPES', 'VIEW_MACHINE_SPECIFICATIONS'],
+    routes: [{ path: ROUTE_PATHS.machineTypesSpecs, element: <MachineTypesSpecsPage /> }],
   },
   {
     requiredPermissions: ['VIEW_MACHINE_SPECIFICATION_TYPES'],

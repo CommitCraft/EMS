@@ -391,6 +391,42 @@ export const CrudPage = ({ config }: CrudPageProps) => {
       }
   };
 
+  const handleExportCSV = () => {
+    if (rows.length === 0) {
+      toast.error("No data to export");
+      return;
+    }
+
+    const headers = config.columns.map((col) => col.label).join(",");
+    const csvRows = rows.map((row) => {
+      return config.columns
+        .map((col) => {
+          let cellValue = "";
+          if (col.render) {
+            const rendered = col.render(row);
+            // Fallback for custom rendered columns
+            cellValue = typeof rendered === "string" ? rendered : String(row[col.key] || "-");
+          } else {
+            cellValue = String(row[col.key] ?? "-");
+          }
+          // Escape inner quotes
+          return `"${cellValue.replace(/"/g, '""')}"`;
+        })
+        .join(",");
+    });
+
+    const csvContent = [headers, ...csvRows].join("\n");
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    link.setAttribute("href", url);
+    link.setAttribute("download", `${config.title.replace(/\s+/g, "_")}_Export.csv`);
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   if (isCompanyProfilePage) {
     const companyTitleField = config.fields.find(
       (field) => field.name === "companyTitle",
@@ -504,6 +540,14 @@ export const CrudPage = ({ config }: CrudPageProps) => {
               <span className="font-semibold text-slate-900">{meta.total}</span>{" "}
               records
             </div>
+
+            <button
+              className="group inline-flex items-center gap-2 rounded-md border border-[#d1d5db] bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-emerald-500 hover:bg-emerald-50 hover:text-emerald-700"
+              onClick={handleExportCSV}
+              title="Download Data as CSV Report"
+            >          
+              Export Report
+            </button>
 
             <button
               className="rounded-md bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700"

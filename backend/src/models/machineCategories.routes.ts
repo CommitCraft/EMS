@@ -20,13 +20,13 @@ const router = Router();
 
 router.use(authenticate);
 
-router.get("/", requirePermission("machine_categories", "view"), getMachineCategories);
+router.get("/", requirePermission("VIEW_MACHINE_CATEGORIES"), getMachineCategories);
 
-router.get("/:id", requirePermission("machine_categories", "view"), getMachineCategoryById);
+router.get("/:id", requirePermission("VIEW_MACHINE_CATEGORIES"), getMachineCategoryById);
 
 router.post(
   "/",
-  requirePermission("machine_categories", "create"),
+  requirePermission("CREATE_MACHINE_CATEGORIES"),
   createMachineCategoryValidators,
   validateRequest,
   createMachineCategory,
@@ -34,12 +34,12 @@ router.post(
 
 router.put(
   "/:id",
-  requirePermission("machine_categories", "update"),
+  requirePermission("UPDATE_MACHINE_CATEGORIES"),
   updateMachineCategoryValidators,
   validateRequest,
   updateMachineCategory,
 );
 
-router.delete("/:id", requirePermission("machine_categories", "delete"), deleteMachineCategory);
+router.delete("/:id", requirePermission("DELETE_MACHINE_CATEGORIES"), deleteMachineCategory);
 
 export default router;
