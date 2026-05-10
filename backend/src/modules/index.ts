@@ -15,8 +15,10 @@ import linesRoutes from './lines/routes/lines.routes';
 import shiftsRoutes from './shifts/routes/shifts.routes';
 import machinesRoutes from './machines/routes/machines.routes';
 import suppliersRoutes from './suppliers/routes/suppliers.routes';
+import machineCategoriesRoutes from '../models/machineCategories.routes';
 import machineTypesRoutes from '../models/machineTypes.routes';
 import machineSpecificationsRoutes from '../models/machineSpecifications.routes';
+import machineSpecificationTypesRoutes from '../models/machineSpecificationTypes.routes';
 
 const apiRouter = Router();
 
@@ -34,8 +36,10 @@ apiRouter.use('/organization/plants', plantsRoutes);
 apiRouter.use('/organization/lines', linesRoutes);
 apiRouter.use('/organization/shifts', shiftsRoutes);
 apiRouter.use('/organization/machines', machinesRoutes);
+apiRouter.use('/organization/machine-categories', machineCategoriesRoutes);
 apiRouter.use('/organization/machine-types', machineTypesRoutes);
 apiRouter.use('/organization/machine-specifications', machineSpecificationsRoutes);
+apiRouter.use('/organization/machine-specification-types', machineSpecificationTypesRoutes);
 apiRouter.use('/organization/suppliers', suppliersRoutes);
 apiRouter.use('/', settingsRoutes);
 

@@ -3,7 +3,10 @@ import { MachineSpecification } from './index';
 
 export const getMachineSpecs = async (req: Request, res: Response) => {
   try {
-    const specs = await MachineSpecification.findAll({ order: [['createdAt', 'DESC']] });
+    const specs = await MachineSpecification.findAll({ 
+      include: ['specificationType'],
+      order: [['createdAt', 'DESC']] 
+    });
     res.status(200).json({ data: specs });
   } catch (error) {
     res.status(500).json({ message: 'Error fetching machine specifications', error });
@@ -12,7 +15,9 @@ export const getMachineSpecs = async (req: Request, res: Response) => {
 
 export const getMachineSpecById = async (req: Request, res: Response) => {
   try {
-    const spec = await MachineSpecification.findByPk(req.params.id);
+    const spec = await MachineSpecification.findByPk(req.params.id, {
+      include: ['specificationType']
+    });
     if (!spec) {
       return res.status(404).json({ message: 'Machine specification not found' });
     }
@@ -25,7 +30,10 @@ export const getMachineSpecById = async (req: Request, res: Response) => {
 export const createMachineSpec = async (req: Request, res: Response) => {
   try {
     const spec = await MachineSpecification.create(req.body);
-    res.status(201).json({ message: 'Machine specification created successfully', data: spec });
+    const fullSpec = await MachineSpecification.findByPk(spec.id, {
+      include: ['specificationType']
+    });
+    res.status(201).json({ message: 'Machine specification created successfully', data: fullSpec });
   } catch (error: any) {
     if (error.name === 'SequelizeUniqueConstraintError') {
       return res.status(400).json({ message: 'Machine specification name or code already exists' });
@@ -41,7 +49,10 @@ export const updateMachineSpec = async (req: Request, res: Response) => {
       return res.status(404).json({ message: 'Machine specification not found' });
     }
     await spec.update(req.body);
-    res.status(200).json({ message: 'Machine specification updated successfully', data: spec });
+    const fullSpec = await MachineSpecification.findByPk(spec.id, {
+      include: ['specificationType']
+    });
+    res.status(200).json({ message: 'Machine specification updated successfully', data: fullSpec });
   } catch (error: any) {
     if (error.name === 'SequelizeUniqueConstraintError') {
       return res.status(400).json({ message: 'Machine specification name or code already exists' });

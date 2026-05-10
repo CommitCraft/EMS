@@ -171,19 +171,41 @@ class MachineTypeModel extends Model<InferAttributes<MachineTypeModel>, InferCre
   declare id: CreationOptional<number>;
   declare name: string;
   declare code: string;
-  declare category: string;
+  declare categoryId: number | null;
   declare description: string | null;
   declare status: string;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
+  declare category?: MachineCategoryModel;
 }
 
 class MachineSpecificationModel extends Model<InferAttributes<MachineSpecificationModel>, InferCreationAttributes<MachineSpecificationModel>> {
   declare id: CreationOptional<number>;
   declare name: string;
   declare code: string;
-  declare type: string;
+  declare typeId: number | null;
   declare uom: string | null;
+  declare description: string | null;
+  declare status: string;
+  declare createdAt: CreationOptional<Date>;
+  declare updatedAt: CreationOptional<Date>;
+  declare specificationType?: MachineSpecificationTypeModel;
+}
+
+class MachineSpecificationTypeModel extends Model<InferAttributes<MachineSpecificationTypeModel>, InferCreationAttributes<MachineSpecificationTypeModel>> {
+  declare id: CreationOptional<number>;
+  declare name: string;
+  declare code: string;
+  declare description: string | null;
+  declare status: string;
+  declare createdAt: CreationOptional<Date>;
+  declare updatedAt: CreationOptional<Date>;
+}
+
+class MachineCategoryModel extends Model<InferAttributes<MachineCategoryModel>, InferCreationAttributes<MachineCategoryModel>> {
+  declare id: CreationOptional<number>;
+  declare name: string;
+  declare code: string;
   declare description: string | null;
   declare status: string;
   declare createdAt: CreationOptional<Date>;
@@ -401,7 +423,7 @@ export const initModels = (sequelizeInstance: Sequelize) => {
       id: { type: DataTypes.INTEGER.UNSIGNED, autoIncrement: true, primaryKey: true },
       name: { type: DataTypes.STRING(150), allowNull: false, unique: true },
       code: { type: DataTypes.STRING(50), allowNull: false, unique: true },
-      category: { type: DataTypes.ENUM('Production', 'Utility', 'Testing', 'Packaging'), allowNull: false },
+      categoryId: { type: DataTypes.INTEGER.UNSIGNED, allowNull: true, field: 'category_id' },
       description: { type: DataTypes.TEXT, allowNull: true },
       status: { type: DataTypes.ENUM('Active', 'Inactive'), allowNull: false, defaultValue: 'Active' },
     },
@@ -413,12 +435,34 @@ export const initModels = (sequelizeInstance: Sequelize) => {
       id: { type: DataTypes.INTEGER.UNSIGNED, autoIncrement: true, primaryKey: true },
       name: { type: DataTypes.STRING(150), allowNull: false, unique: true },
       code: { type: DataTypes.STRING(50), allowNull: false, unique: true },
-      type: { type: DataTypes.ENUM('Electrical', 'Mechanical', 'Operational', 'Environmental', 'Other'), allowNull: false },
+      typeId: { type: DataTypes.INTEGER.UNSIGNED, allowNull: true, field: 'type_id' },
       uom: { type: DataTypes.STRING(50), allowNull: true },
       description: { type: DataTypes.TEXT, allowNull: true },
       status: { type: DataTypes.ENUM('Active', 'Inactive'), allowNull: false, defaultValue: 'Active' },
     },
     { sequelize: sequelizeInstance, tableName: 'machine_specifications', timestamps: true, underscored: true },
+  );
+
+  MachineSpecificationTypeModel.init(
+    {
+      id: { type: DataTypes.INTEGER.UNSIGNED, autoIncrement: true, primaryKey: true },
+      name: { type: DataTypes.STRING(150), allowNull: false, unique: true },
+      code: { type: DataTypes.STRING(50), allowNull: false, unique: true },
+      description: { type: DataTypes.TEXT, allowNull: true },
+      status: { type: DataTypes.ENUM('Active', 'Inactive'), allowNull: false, defaultValue: 'Active' },
+    },
+    { sequelize: sequelizeInstance, tableName: 'machine_specification_types', timestamps: true, underscored: true },
+  );
+
+  MachineCategoryModel.init(
+    {
+      id: { type: DataTypes.INTEGER.UNSIGNED, autoIncrement: true, primaryKey: true },
+      name: { type: DataTypes.STRING(150), allowNull: false, unique: true },
+      code: { type: DataTypes.STRING(50), allowNull: false, unique: true },
+      description: { type: DataTypes.TEXT, allowNull: true },
+      status: { type: DataTypes.ENUM('Active', 'Inactive'), allowNull: false, defaultValue: 'Active' },
+    },
+    { sequelize: sequelizeInstance, tableName: 'machine_categories', timestamps: true, underscored: true },
   );
 
   RoleModel.hasMany(UserModel, { foreignKey: 'roleId', as: 'users' });
@@ -435,6 +479,10 @@ export const initModels = (sequelizeInstance: Sequelize) => {
   MachineModel.belongsTo(MachineTypeModel, { foreignKey: 'machineTypeId', as: 'machineType' });
   MachineSpecificationModel.hasMany(MachineModel, { foreignKey: 'machineSpecId', as: 'machines' });
   MachineModel.belongsTo(MachineSpecificationModel, { foreignKey: 'machineSpecId', as: 'machineSpec' });
+  MachineCategoryModel.hasMany(MachineTypeModel, { foreignKey: 'categoryId', as: 'machineTypes' });
+  MachineTypeModel.belongsTo(MachineCategoryModel, { foreignKey: 'categoryId', as: 'category' });
+  MachineSpecificationTypeModel.hasMany(MachineSpecificationModel, { foreignKey: 'typeId', as: 'specifications' });
+  MachineSpecificationModel.belongsTo(MachineSpecificationTypeModel, { foreignKey: 'typeId', as: 'specificationType' });
   RoleModel.belongsToMany(PermissionModel, {
     through: RolePermissionModel,
     foreignKey: 'roleId',
@@ -465,6 +513,8 @@ export const initModels = (sequelizeInstance: Sequelize) => {
     Supplier: SupplierModel,
     MachineType: MachineTypeModel,
     MachineSpecification: MachineSpecificationModel,
+    MachineSpecificationType: MachineSpecificationTypeModel,
+    MachineCategory: MachineCategoryModel,
   };
 };
 
@@ -487,4 +537,6 @@ export const {
   Supplier,
   MachineType,
   MachineSpecification,
+  MachineSpecificationType,
+  MachineCategory,
 } = models;

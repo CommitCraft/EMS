@@ -20,12 +20,12 @@ export const machinesCrudConfig = {
     {
       model: MachineType,
       as: 'machineType',
-      attributes: ['id', 'name', 'code', 'category'],
+      attributes: ['id', 'name', 'code', 'categoryId'],
     },
     {
       model: MachineSpecification,
       as: 'machineSpec',
-      attributes: ['id', 'name', 'code', 'type'],
+      attributes: ['id', 'name', 'code', 'typeId'],
     },
   ],
 };

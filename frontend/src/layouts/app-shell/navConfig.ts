@@ -57,24 +57,6 @@ export const navSections: NavSection[] = [
             requiredPermissions: ["VIEW_SHIFTS"],
           },
           {
-            label: "Machine Types",
-            to: "/organization/machine-types",
-            icon: Cpu,
-            requiredPermissions: ["VIEW_MACHINE_TYPES"],
-          },
-          {
-            label: "Machine Specs",
-            to: "/organization/machine-specifications",
-            icon: ClipboardIcon,
-            requiredPermissions: ["VIEW_MACHINE_SPECIFICATIONS"],
-          },
-          {
-            label: "Machines",
-            to: "/organization/machines",
-            icon: BuildIcon,
-            requiredPermissions: ["VIEW_MACHINES"],
-          },
-          {
             label: "Suppliers",
             to: "/organization/suppliers",
             icon: TruckIcon,
@@ -85,6 +67,43 @@ export const navSections: NavSection[] = [
             to: "/organization/departments",
             icon: ClipboardIcon,
             requiredPermissions: ["VIEW_DEPARTMENTS"],
+          },
+        ],
+      },
+      {
+        label: "Machines Center",
+        icon: BuildIcon,
+        requiredPermissions: [],
+        children: [
+          {
+            label: "Machine Categories",
+            to: "/organization/machine-categories",
+            icon: ListIcon,
+            requiredPermissions: ["VIEW_MACHINE_CATEGORIES"],
+          },
+          {
+            label: "Machine Types",
+            to: "/organization/machine-types",
+            icon: Cpu,
+            requiredPermissions: ["VIEW_MACHINE_TYPES"],
+          },
+          {
+            label: "Spec Types",
+            to: "/organization/machine-specification-types",
+            icon: ListIcon,
+            requiredPermissions: ["VIEW_MACHINE_SPECIFICATION_TYPES"],
+          },
+          {
+            label: "Machine Specs",
+            to: "/organization/machine-specifications",
+            icon: ClipboardIcon,
+            requiredPermissions: ["VIEW_MACHINE_SPECIFICATIONS"],
+          },
+          {
+            label: "All Machines",
+            to: "/organization/machines",
+            icon: BuildIcon,
+            requiredPermissions: ["VIEW_MACHINES"],
           },
         ],
       },

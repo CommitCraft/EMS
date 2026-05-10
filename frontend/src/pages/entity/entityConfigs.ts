@@ -519,6 +519,24 @@ export const machinesConfig: CrudConfig & { selectSources: Record<string, { endp
   },
 };
 
+export const machineCategoriesConfig: CrudConfig = {
+  title: 'Machine Categories',
+  endpoint: '/organization/machine-categories',
+  description: 'Manage distinct categories for structuring machine types.',
+  searchPlaceholder: 'Search categories by name or code',
+  columns: [
+    { key: 'name', label: 'Category Name' },
+    { key: 'code', label: 'Code' },
+    { key: 'status', label: 'Status' },
+  ],
+  fields: [
+    { name: 'name', label: 'Category Name', type: 'text', required: true },
+    { name: 'code', label: 'Category Code', type: 'text', required: true },
+    { name: 'description', label: 'Description', type: 'textarea' },
+    { name: 'status', label: 'Status', type: 'select', required: true, options: [{ label: 'Active', value: 'Active' }, { label: 'Inactive', value: 'Inactive' }] },
+  ],
+};
+
 export const machineTypesConfig: CrudConfig = {
   title: 'Machine Types',
   endpoint: '/organization/machine-types',
@@ -528,7 +546,7 @@ export const machineTypesConfig: CrudConfig = {
   columns: [
     { key: 'name', label: 'Type Name' },
     { key: 'code', label: 'Code' },
-    { key: 'category', label: 'Category' },
+    { key: 'category', label: 'Category', render: (row) => String((row.category as { name?: string } | undefined)?.name || '-') },
     { key: 'status', label: 'Status' },
   ],
 
@@ -548,16 +566,10 @@ export const machineTypesConfig: CrudConfig = {
     },
 
     {
-      name: 'category',
+      name: 'categoryId',
       label: 'Category',
       type: 'select',
       required: true,
-      options: [
-        { label: 'Production', value: 'Production' },
-        { label: 'Utility', value: 'Utility' },
-        { label: 'Testing', value: 'Testing' },
-        { label: 'Packaging', value: 'Packaging' },
-      ],
     },
 
     {
@@ -577,9 +589,30 @@ export const machineTypesConfig: CrudConfig = {
       ],
     },
   ],
+  selectSources: {
+    categoryId: { endpoint: '/organization/machine-categories?limit=100', labelKey: 'name', valueKey: 'id' },
+  },
 };
 
-export const machineSpecificationsConfig: CrudConfig = {
+export const machineSpecificationTypesConfig: CrudConfig = {
+  title: 'Specification Types',
+  endpoint: '/organization/machine-specification-types',
+  description: 'Manage distinct types for grouping standard machine specifications.',
+  searchPlaceholder: 'Search specification types by name or code',
+  columns: [
+    { key: 'name', label: 'Type Name' },
+    { key: 'code', label: 'Code' },
+    { key: 'status', label: 'Status' },
+  ],
+  fields: [
+    { name: 'name', label: 'Type Name', type: 'text', required: true },
+    { name: 'code', label: 'Type Code', type: 'text', required: true },
+    { name: 'description', label: 'Description', type: 'textarea' },
+    { name: 'status', label: 'Status', type: 'select', required: true, options: [{ label: 'Active', value: 'Active' }, { label: 'Inactive', value: 'Inactive' }] },
+  ],
+};
+
+export const machineSpecificationsConfig: CrudConfig & { selectSources: Record<string, { endpoint: string; labelKey: string; valueKey: string }> } = {
   title: 'Machine Specifications',
   endpoint: '/organization/machine-specifications',
   description: 'Manage standard technical parameters and specifications for machines.',
@@ -588,7 +621,7 @@ export const machineSpecificationsConfig: CrudConfig = {
   columns: [
     { key: 'name', label: 'Name' },
     { key: 'code', label: 'Code' },
-    { key: 'type', label: 'Type' },
+    { key: 'specificationType', label: 'Type', render: (row) => String((row.specificationType as { name?: string } | undefined)?.name || '-') },
     { key: 'uom', label: 'UOM', render: (row) => String(row.uom || '-') },
     { key: 'status', label: 'Status' },
   ],
@@ -597,17 +630,10 @@ export const machineSpecificationsConfig: CrudConfig = {
     { name: 'name', label: 'Specification Name', type: 'text', required: true },
     { name: 'code', label: 'Code', type: 'text', required: true },
     {
-      name: 'type',
-      label: 'Type',
+      name: 'typeId',
+      label: 'Specification Type',
       type: 'select',
       required: true,
-      options: [
-        { label: 'Electrical', value: 'Electrical' },
-        { label: 'Mechanical', value: 'Mechanical' },
-        { label: 'Operational', value: 'Operational' },
-        { label: 'Environmental', value: 'Environmental' },
-        { label: 'Other', value: 'Other' },
-      ],
     },
     { 
       name: 'uom', 
@@ -624,4 +650,7 @@ export const machineSpecificationsConfig: CrudConfig = {
       options: [{ label: 'Active', value: 'Active' }, { label: 'Inactive', value: 'Inactive' }],
     },
   ],
+  selectSources: {
+    typeId: { endpoint: '/organization/machine-specification-types?limit=100', labelKey: 'name', valueKey: 'id' },
+  },
 };

@@ -4,7 +4,9 @@ import {
   LinesPage,
   ShiftsPage,
   MachinesPage,
+  MachineCategoriesPage,
   MachineTypesPage,
+  MachineSpecificationTypesPage,
   MachineSpecificationsPage,
   SuppliersPage,
 } from '../pageRegistry';
@@ -25,8 +27,16 @@ export const organizationRouteGroups: PermissionRouteGroup[] = [
     routes: [{ path: ROUTE_PATHS.shifts, element: <ShiftsPage /> }],
   },
   {
+    requiredPermissions: ['VIEW_MACHINE_CATEGORIES'],
+    routes: [{ path: ROUTE_PATHS.machineCategories, element: <MachineCategoriesPage /> }],
+  },
+  {
     requiredPermissions: ['VIEW_MACHINE_TYPES'],
     routes: [{ path: ROUTE_PATHS.machineTypes, element: <MachineTypesPage /> }],
+  },
+  {
+    requiredPermissions: ['VIEW_MACHINE_SPECIFICATION_TYPES'],
+    routes: [{ path: ROUTE_PATHS.machineSpecificationTypes, element: <MachineSpecificationTypesPage /> }],
   },
   {
     requiredPermissions: ['VIEW_MACHINE_SPECIFICATIONS'],
